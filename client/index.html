@@ -66,13 +66,13 @@
       <span style="font-family:Inter,system-ui,sans-serif;font-size:13px;color:#555;">Liberia Jobs Observatory System</span>
     </div>
     <script>
-      if('serviceWorker' in navigator){
-        navigator.serviceWorker.getRegistrations().then(function(regs){
-          regs.forEach(function(r){r.unregister()});
-          if(regs.length>0){caches.keys().then(function(k){k.forEach(function(n){caches.delete(n)})}).then(function(){window.location.reload()})}
-        });
-        navigator.serviceWorker.addEventListener('controllerchange',function(){window.location.reload()});
-      }
+      setTimeout(function() {
+        var loader = document.getElementById("initial-loader");
+        if (loader) {
+          loader.style.opacity = "0";
+          setTimeout(function() { if (loader.parentNode) loader.remove(); }, 400);
+        }
+      }, 1200);
     </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

@@ -1,26 +1,157 @@
-// Mock API data provider for GitHub Pages static deployment
-// Provides realistic Liberian labor market data for all 15 counties
+﻿// Comprehensive Mock API data provider for GitHub Pages static deployment
+// Accurately matches shared/schema.ts types and endpoints
 
-export const LIBERIA_COUNTIES = [
-  { id: "montserrado", name: "Montserrado", capital: "Monrovia", region: "Greater Monrovia", population: 1118241, activeJobs: 18450, unemploymentRate: 8.5, pecsCount: 3, verifiedRate: 92 },
-  { id: "nimba", name: "Nimba", capital: "Sanniquellie", region: "North-Central", population: 462026, activeJobs: 7200, unemploymentRate: 11.2, pecsCount: 2, verifiedRate: 88 },
-  { id: "bong", name: "Bong", capital: "Gbarnga", region: "Central", population: 333481, activeJobs: 4950, unemploymentRate: 12.1, pecsCount: 1, verifiedRate: 85 },
-  { id: "grand_bassa", name: "Grand Bassa", capital: "Buchanan", region: "South-Central", population: 221225, activeJobs: 3820, unemploymentRate: 10.4, pecsCount: 1, verifiedRate: 89 },
-  { id: "margibi", name: "Margibi", capital: "Kakata", region: "Central", population: 209923, activeJobs: 3600, unemploymentRate: 9.8, pecsCount: 1, verifiedRate: 86 },
-  { id: "lofa", name: "Lofa", capital: "Voinjama", region: "North", population: 276863, activeJobs: 2900, unemploymentRate: 13.5, pecsCount: 1, verifiedRate: 81 },
-  { id: "maryland", name: "Maryland", capital: "Harper", region: "South-East", population: 135938, activeJobs: 1850, unemploymentRate: 14.2, pecsCount: 1, verifiedRate: 83 },
-  { id: "sinoe", name: "Sinoe", capital: "Greenville", region: "South-East", population: 102391, activeJobs: 1420, unemploymentRate: 13.8, pecsCount: 1, verifiedRate: 84 },
-  { id: "grand_gedeh", name: "Grand Gedeh", capital: "Zwedru", region: "East", population: 125258, activeJobs: 1310, unemploymentRate: 14.5, pecsCount: 1, verifiedRate: 80 },
-  { id: "grand_cape_mount", name: "Grand Cape Mount", capital: "Robertsport", region: "Western", population: 127076, activeJobs: 1650, unemploymentRate: 12.9, pecsCount: 1, verifiedRate: 87 },
-  { id: "bomi", name: "Bomi", capital: "Tubmanburg", region: "Western", population: 84119, activeJobs: 1100, unemploymentRate: 13.1, pecsCount: 1, verifiedRate: 82 },
-  { id: "rivercess", name: "Rivercess", capital: "Cestos City", region: "South-Central", population: 71509, activeJobs: 680, unemploymentRate: 15.2, pecsCount: 1, verifiedRate: 79 },
-  { id: "grand_kru", name: "Grand Kru", capital: "Barclayville", region: "South-East", population: 57913, activeJobs: 540, unemploymentRate: 16.0, pecsCount: 1, verifiedRate: 78 },
-  { id: "river_gee", name: "River Gee", capital: "Fish Town", region: "South-East", population: 66789, activeJobs: 590, unemploymentRate: 15.5, pecsCount: 1, verifiedRate: 77 },
-  { id: "gbarpolu", name: "Gbarpolu", capital: "Bopolu", region: "Western", population: 83758, activeJobs: 710, unemploymentRate: 14.8, pecsCount: 1, verifiedRate: 81 }
+import type { NationalStat, CountyData, MonthlyData, SectorData } from "@shared/schema";
+
+export const MOCK_STATS: NationalStat[] = [
+  {
+    id: "total-jobs",
+    label: "Total Jobs Tracked",
+    value: 49770,
+    change: 4.8,
+    changeLabel: "employment spells",
+    icon: "Briefcase",
+    color: "text-blue-500",
+  },
+  {
+    id: "employers",
+    label: "Registered Employers",
+    value: 1942,
+    change: 3.2,
+    changeLabel: "organizations",
+    icon: "Building2",
+    color: "text-emerald-500",
+  },
+  {
+    id: "verification-rate",
+    label: "Verification Rate",
+    value: 87,
+    suffix: "%",
+    change: 5.4,
+    changeLabel: "trust verified",
+    icon: "BadgeCheck",
+    color: "text-amber-500",
+  },
+  {
+    id: "counties",
+    label: "Counties Covered",
+    value: 15,
+    change: 0,
+    changeLabel: "nationwide coverage",
+    icon: "MapPin",
+    color: "text-purple-500",
+  },
+  {
+    id: "vacancies",
+    label: "Job Postings",
+    value: 412,
+    change: 14.5,
+    changeLabel: "active vacancies",
+    icon: "FileText",
+    color: "text-indigo-500",
+  },
+  {
+    id: "job-seekers",
+    label: "Job Seekers",
+    value: 14820,
+    change: 9.1,
+    changeLabel: "looking for work",
+    icon: "UserSearch",
+    color: "text-orange-500",
+  },
+];
+
+export const MOCK_COUNTIES: CountyData[] = [
+  { id: "montserrado", name: "Montserrado", jobs: 18450, employers: 620, growth: 5.2, color: "bg-blue-500", population: 1118241 },
+  { id: "nimba", name: "Nimba", jobs: 7200, employers: 245, growth: 4.1, color: "bg-emerald-500", population: 462026 },
+  { id: "bong", name: "Bong", jobs: 4950, employers: 180, growth: 3.8, color: "bg-amber-500", population: 333481 },
+  { id: "lofa", name: "Lofa", jobs: 2900, employers: 115, growth: 2.9, color: "bg-violet-500", population: 276863 },
+  { id: "grand-bassa", name: "Grand Bassa", jobs: 3820, employers: 140, growth: 3.5, color: "bg-rose-500", population: 221225 },
+  { id: "margibi", name: "Margibi", jobs: 3600, employers: 135, growth: 4.0, color: "bg-cyan-500", population: 209923 },
+  { id: "grand-cape-mount", name: "Grand Cape Mount", jobs: 1650, employers: 72, growth: 2.4, color: "bg-orange-500", population: 127076 },
+  { id: "bomi", name: "Bomi", jobs: 1100, employers: 54, growth: 2.1, color: "bg-indigo-500", population: 84119 },
+  { id: "grand-gedeh", name: "Grand Gedeh", jobs: 1310, employers: 58, growth: 1.8, color: "bg-teal-500", population: 125258 },
+  { id: "sinoe", name: "Sinoe", jobs: 1420, employers: 62, growth: 2.0, color: "bg-pink-500", population: 102391 },
+  { id: "river-cess", name: "River Cess", jobs: 680, employers: 32, growth: 1.2, color: "bg-lime-500", population: 71509 },
+  { id: "gbarpolu", name: "Gbarpolu", jobs: 710, employers: 35, growth: 1.5, color: "bg-sky-500", population: 83758 },
+  { id: "maryland", name: "Maryland", jobs: 1850, employers: 78, growth: 2.7, color: "bg-fuchsia-500", population: 135938 },
+  { id: "grand-kru", name: "Grand Kru", jobs: 540, employers: 28, growth: 1.1, color: "bg-yellow-500", population: 57913 },
+  { id: "river-gee", name: "River Gee", jobs: 590, employers: 30, growth: 1.3, color: "bg-red-500", population: 66789 },
+];
+
+export const MOCK_MONTHLY_DATA: MonthlyData[] = [
+  { month: "Jan", jobs: 42100, formal: 25800, informal: 16300 },
+  { month: "Feb", jobs: 43500, formal: 26400, informal: 17100 },
+  { month: "Mar", jobs: 44900, formal: 27100, informal: 17800 },
+  { month: "Apr", jobs: 46200, formal: 27900, informal: 18300 },
+  { month: "May", jobs: 47800, formal: 28700, informal: 19100 },
+  { month: "Jun", jobs: 48900, formal: 29300, informal: 19600 },
+  { month: "Jul", jobs: 49770, formal: 29800, informal: 19970 },
+];
+
+export const MOCK_SECTORS: SectorData[] = [
+  { sector: "private", jobs: 27150, postings: 215, color: "#3b82f6" },
+  { sector: "public", jobs: 15200, postings: 85, color: "#8b5cf6" },
+  { sector: "ngo", jobs: 7420, postings: 48, color: "#06b6d4" },
+  { sector: "informal", jobs: 19970, postings: 32, color: "#f59e0b" },
+  { sector: "seasonal", jobs: 8400, postings: 32, color: "#22c55e" },
+];
+
+export const MOCK_LABOUR_INDICATORS = [
+  {
+    id: 1,
+    year: 2026,
+    quarter: 1,
+    unemploymentRate: 11.4,
+    employmentToPopRatio: 55.3,
+    labourForceParticipation: 62.4,
+    youthUnemploymentRate: 16.8,
+    femaleLabourParticipation: 58.2,
+    informalEmploymentRate: 72.1,
+    totalLabourForce: 1950000,
+    totalEmployed: 1727700,
+    totalUnemployed: 222300,
+    source: "Liberia Jobs Observatory System (LiJOBS)",
+  },
+  {
+    id: 2,
+    year: 2025,
+    quarter: 4,
+    unemploymentRate: 11.8,
+    employmentToPopRatio: 54.8,
+    labourForceParticipation: 62.1,
+    youthUnemploymentRate: 17.3,
+    femaleLabourParticipation: 57.6,
+    informalEmploymentRate: 73.0,
+    totalLabourForce: 1920000,
+    totalEmployed: 1693440,
+    totalUnemployed: 226560,
+    source: "Liberia Jobs Observatory System (LiJOBS)",
+  },
+  {
+    id: 3,
+    year: 2025,
+    quarter: 3,
+    unemploymentRate: 12.2,
+    employmentToPopRatio: 54.2,
+    labourForceParticipation: 61.8,
+    youthUnemploymentRate: 17.9,
+    femaleLabourParticipation: 57.1,
+    informalEmploymentRate: 73.8,
+    totalLabourForce: 1890000,
+    totalEmployed: 1659420,
+    totalUnemployed: 230580,
+    source: "Liberia Jobs Observatory System (LiJOBS)",
+  }
 ];
 
 export const MOCK_DATA: Record<string, any> = {
   "/api/access-code/status": { granted: true },
+  "/api/stats": MOCK_STATS,
+  "/api/counties": MOCK_COUNTIES,
+  "/api/monthly-data": MOCK_MONTHLY_DATA,
+  "/api/sectors": MOCK_SECTORS,
+  "/api/labour-indicators": MOCK_LABOUR_INDICATORS,
   "/api/auth/user": {
     id: "demo-admin-id",
     username: "director",
@@ -89,17 +220,16 @@ export const MOCK_DATA: Record<string, any> = {
       { sector: "Construction & Infrastructure", count: 4200, percentage: 8.4 },
       { sector: "ICT & Telecommunications", count: 3000, percentage: 6.0 }
     ],
-    spellsByCounty: LIBERIA_COUNTIES.map(c => ({ county: c.name, count: c.activeJobs, verifiedRate: c.verifiedRate }))
+    spellsByCounty: MOCK_COUNTIES.map(c => ({ county: c.name, count: c.jobs, verifiedRate: 88 }))
   },
-  "/api/counties": LIBERIA_COUNTIES,
-  "/api/county-indicators": LIBERIA_COUNTIES.map(c => ({
+  "/api/county-indicators": MOCK_COUNTIES.map(c => ({
     county: c.name,
-    unemploymentRate: c.unemploymentRate,
-    youthUnemploymentRate: (c.unemploymentRate * 1.45).toFixed(1),
+    unemploymentRate: 11.4,
+    youthUnemploymentRate: 16.8,
     informalRate: 68.2,
-    labourForce: Math.round(c.population * 0.58),
+    labourForce: Math.round((c.population || 100000) * 0.58),
     employmentPopulationRatio: 52.4,
-    activeVacancies: Math.round(c.activeJobs * 0.08)
+    activeVacancies: Math.round(c.jobs * 0.08)
   })),
   "/api/labour-market-indicators": {
     nationalUnemploymentRate: 11.4,
@@ -191,24 +321,6 @@ export const MOCK_DATA: Record<string, any> = {
       requirements: "Diploma in Supply Chain or Logistics Management, minimum 2 years maritime port experience.",
       closingDate: "2026-10-25T23:59:59Z",
       createdAt: "2026-09-01T08:00:00Z"
-    },
-    {
-      id: "vac-005",
-      title: "Full-Stack Web & Mobile Developer",
-      employerName: "Liberia Telecommunications Corporation (LTC)",
-      sector: "ICT & Telecommunications",
-      county: "Montserrado",
-      location: "Monrovia",
-      contractType: "Permanent",
-      positions: 6,
-      salaryMin: 750,
-      salaryMax: 1300,
-      currency: "USD",
-      status: "open",
-      description: "Develop citizen digital portal services, mobile payment gateways, and API integrations for e-governance systems.",
-      requirements: "Proficiency in React/TypeScript, Node.js/Express, PostgreSQL, and RESTful APIs.",
-      closingDate: "2026-11-01T23:59:59Z",
-      createdAt: "2026-09-05T14:00:00Z"
     }
   ],
   "/api/courses": [
@@ -241,35 +353,18 @@ export const MOCK_DATA: Record<string, any> = {
       description: "Commercial broiler and layer management, biosecurity, feed formulation, and value addition for local markets.",
       enrolledCount: 65,
       rating: 4.9
-    },
-    {
-      id: "crs-003",
-      title: "Full-Stack Web Development & Cloud Deployment",
-      providerName: "Liberia Digital Skills Academy",
-      category: "Information Technology",
-      durationWeeks: 16,
-      cost: 0,
-      currency: "USD",
-      county: "Montserrado",
-      level: "Intermediate",
-      certified: true,
-      description: "Modern web architecture using React, Node.js, TypeScript, and cloud deployment pipelines for Liberian digital platforms.",
-      enrolledCount: 120,
-      rating: 4.9
     }
   ],
   "/api/training-providers": [
     { id: "tp-1", name: "Booker Washington Institute (BWI)", location: "Kakata, Margibi County", accredited: true, studentCapacity: 1200, coursesOffered: 18 },
-    { id: "tp-2", name: "Monrovia Vocational Training Center (MVTC)", location: "Paynesville, Montserrado County", accredited: true, studentCapacity: 850, coursesOffered: 14 },
-    { id: "tp-3", name: "Stella Maris Polytechnic University", location: "Monrovia, Montserrado County", accredited: true, studentCapacity: 2500, coursesOffered: 32 },
-    { id: "tp-4", name: "Nimba County University College", location: "Sanniquellie, Nimba County", accredited: true, studentCapacity: 900, coursesOffered: 12 }
+    { id: "tp-2", name: "Monrovia Vocational Training Center (MVTC)", location: "Paynesville, Montserrado County", accredited: true, studentCapacity: 850, coursesOffered: 14 }
   ],
-  "/api/pec-centers": LIBERIA_COUNTIES.map((c, i) => ({
+  "/api/pec-centers": MOCK_COUNTIES.map((c, i) => ({
     id: `pec-${i + 1}`,
-    name: `${c.capital} Public Employment Centre`,
+    name: `${c.name} Public Employment Centre`,
     county: c.name,
-    city: c.capital,
-    address: `Ministry of Labour County Service Centre, ${c.capital}`,
+    city: c.name,
+    address: `Ministry of Labour County Service Centre, ${c.name}`,
     phone: `+231 77 000 ${1000 + i}`,
     email: `pec.${c.id}@mol.gov.lr`,
     status: "Operational",
@@ -286,17 +381,6 @@ export const MOCK_DATA: Record<string, any> = {
       closingDate: "2026-10-30T17:00:00Z",
       status: "active",
       description: "Procurement of 10kVA solar hybrid systems, batteries, and installation services across 15 Public Employment Centres nationwide."
-    },
-    {
-      id: "tdr-002",
-      title: "Digital Labor Market Survey & Biometric Enumeration Hardware",
-      issuingAgency: "Liberia Jobs Observatory Secretariat",
-      category: "IT Hardware & Equipment",
-      budgetEstimated: 78000,
-      currency: "USD",
-      closingDate: "2026-10-20T17:00:00Z",
-      status: "active",
-      description: "Supply of rugged tablets, biometric fingerprint readers, and portable solar power banks for county enumerators."
     }
   ],
   "/api/knowledge-base": [
@@ -307,22 +391,6 @@ export const MOCK_DATA: Record<string, any> = {
       publishedYear: 2015,
       downloadUrl: "#",
       summary: "Official statutory framework governing minimum wage, employment contracts, occupational safety, and labor dispute resolution in Liberia."
-    },
-    {
-      id: "kb-002",
-      title: "National Labour Force & Employment Observatory Survey Report",
-      category: "Statistical Reports",
-      publishedYear: 2025,
-      downloadUrl: "#",
-      summary: "Comprehensive statistical analysis of employment spells, youth labor force dynamics, and county-by-county wage variations."
-    },
-    {
-      id: "kb-003",
-      title: "Guidelines on Employment Spell Verification and Trust Scoring",
-      category: "Observatory Methodology",
-      publishedYear: 2026,
-      downloadUrl: "#",
-      summary: "Technical standard operating procedure for enumerator verification of public, private, and informal sector employment spells."
     }
   ],
   "/api/workplace-safety/stats": {
@@ -371,7 +439,7 @@ export function getMockResponse(url: string, method = "GET"): any | null {
   const cleanUrl = url.split("?")[0];
   
   // Exact match
-  if (MOCK_DATA[cleanUrl]) {
+  if (cleanUrl in MOCK_DATA) {
     return MOCK_DATA[cleanUrl];
   }
 
@@ -391,5 +459,10 @@ export function getMockResponse(url: string, method = "GET"): any | null {
     return { success: true, message: "Item removed (Static Demo Mode)" };
   }
 
-  return { success: true, data: [] };
+  // Default to empty array for collection endpoints, or empty object
+  if (cleanUrl.endsWith("s") || cleanUrl.includes("list")) {
+    return [];
+  }
+
+  return { success: true };
 }

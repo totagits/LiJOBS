@@ -1,0 +1,1 @@
+import{e as o,j as t,B as n,A as e}from"./index-Dhi_0W_M.js";function c(){const[,s]=o(),a=()=>{window.history.length>1?window.history.back():s("/")};return t.jsxs(n,{variant:"ghost",size:"sm",onClick:a,className:"gap-2 mb-4","data-testid":"button-back",children:[t.jsx(e,{className:"w-4 h-4"}),"Back"]})}export{c as B};

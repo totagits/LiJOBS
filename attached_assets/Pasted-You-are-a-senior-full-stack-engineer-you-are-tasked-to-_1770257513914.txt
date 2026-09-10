@@ -1,0 +1,104 @@
+You are a senior full-stack engineer, you are tasked to Build an interactive map of Liberia with all 15 counties clearly demarcated and labeled. Each county must show job statistics (job count number and percent share of national jobs) in a tooltip and in a side panel when clicked.
+
+TECH STACK (required)
+* Frontend: React + TypeScript + Vite
+* Map: Leaflet + react-leaflet (use OpenStreetMap tiles)
+* Styling: Tailwind CSS
+* Data: Local JSON file (mock dataset) + ability to later swap to API
+* Run with: npm install, npm run dev
+
+CORE FUNCTIONAL REQUIREMENTS
+1) Liberia County Boundaries
+* Use a GeoJSON file containing Liberia’s 15 county polygons.
+* Counties must be visually distinct (border lines clearly visible).
+* Label each county name on the map (either permanent labels or on hover).
+* Provide a toggle: “Show county labels” ON/OFF.
+
+2) Job Stats Per County
+* For each county, show:
+  a) job_count (integer)
+  b) job_percent (0–100, one decimal place)
+* Tooltip on hover: “County: <name> | Jobs: <job_count> | Share: <job_percent>%”
+* On click, open a right-side details panel with:
+  - County name
+  - Job count
+  - Percent share
+  - Rank by job count (1–15)
+  - Mini progress bar for percent share
+* Highlight selected county (different border weight + slight fill change).
+
+3) National Summary
+* Top summary cards above map:
+  - Total Jobs (sum of all counties)
+  - Highest Jobs County
+  - Lowest Jobs County
+* The percent share must be computed dynamically from job_count / total_jobs * 100.
+
+4) Data Inputs + Validation
+* Store a mock dataset in /src/data/jobs_by_county.json with 15 entries.
+* Ensure each county name exactly matches GeoJSON county properties (e.g., `name`).
+* If a county is missing job stats, display “No data” but still render the county.
+* Add a small validation function at startup that checks all 15 counties exist and logs warnings if mismatched.
+
+5) UI/UX
+* Layout: header + summary cards + map area + right-side panel.
+* Map should be responsive (mobile and desktop).
+* Add a search box to filter/select a county by name.
+* Add a legend showing:
+  - Color scale by job_count (choropleth)
+  - Scale thresholds (e.g., quantiles or fixed buckets)
+* Add a toggle: “Choropleth by jobs” ON/OFF (when OFF, use neutral color).
+
+6) County List
+* Add a sortable county table beneath the map:
+  - County | Jobs | Share %
+* Sorting: by Jobs (desc/asc), by County name (A–Z)
+* Clicking a row selects/zooms to that county on the map.
+
+MAP + GEOJSON NOTES (must implement)
+* Use a county-level Liberia GeoJSON.
+* If no GeoJSON is provided in the repo, do this:
+  - Create /src/data/liberia_counties.geojson placeholder file.
+  - Implement the code to load it.
+  - Add clear instructions in README on where to paste the correct Liberia counties GeoJSON.
+* The GeoJSON property for county name should be normalized:
+  - If `properties.name` doesn’t exist, try `properties.COUNTY` or `properties.county`.
+  - Add a function `getCountyName(feature)` that resolves this reliably.
+
+FILES / PROJECT STRUCTURE
+* /src
+  - /components
+    - Header.tsx
+    - SummaryCards.tsx
+    - CountyMap.tsx
+    - CountyDetailsPanel.tsx
+    - CountyTable.tsx
+    - Controls.tsx (search + toggles)
+  - /data
+    - liberia_counties.geojson
+    - jobs_by_county.json
+  - /utils
+    - stats.ts (percent calc, ranking, validation)
+    - geo.ts (name normalization helper)
+  - App.tsx
+  - main.tsx
+* Add a README.md explaining:
+  - how to run
+  - where GeoJSON goes
+  - how to edit job stats JSON
+  - how percent is computed
+
+MOCK DATA REQUIREMENT
+Populate jobs_by_county.json with 15 counties:
+Bomi, Bong, Gbarpolu, Grand Bassa, Grand Cape Mount, Grand Gedeh,
+Grand Kru, Lofa, Margibi, Maryland, Montserrado, Nimba,
+River Cess, River Gee, Sinoe
+Give each a realistic placeholder job_count number (any integers), and compute percent in the app.
+
+DELIVERABLE
+* The app must start and render the Liberia map with 15 county polygons (assuming a valid GeoJSON is pasted).
+* The UI must show tooltips, side panel details, choropleth legend, summary cards, and the sortable county table.
+* No external paid APIs. Use OSM tiles.
+* Keep code clean, strongly typed, and well-commented.
+
+Now implement the full project with all files, and ensure it runs successfully.

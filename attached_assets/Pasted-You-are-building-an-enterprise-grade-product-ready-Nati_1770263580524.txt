@@ -1,0 +1,87 @@
+You are building an enterprise-grade, product-ready National Job Creation Data Platform for the Republic of Liberia called “LiJOBS — Liberia Jobs Observatory & Labour Exchange System”.
+
+MISSION
+Build a secure, privacy-safe, real-time platform that:
+(1) Collects and verifies job creation data nationwide (public + private sectors) using “employment spells” and a verification/trust-score engine; and
+(2) Operates a modern labour exchange (job seekers, vacancies, matching, counselling, training providers) with inclusive USSD/SMS access.
+
+BENCHMARK FEATURES (must match)
+- Ghana GLMIS-style: Job seeker registration, jobs browsing, counselling booking, training providers directory, employer job posting, and labour market statistics dashboards.
+- Nigeria NELEX-style: job seekers + employers meet online; resume search; placement support; labour market info, with public employment centre workflows.
+- Senegal ANPEJ/SIME-style: job offers portal; services for job seekers (orientation, training, entrepreneurship/project support, migration interest) and employer services; issue a jobseeker ID card/QR.
+- Include inclusive access via USSD/SMS + call-center assisted enrollment (Text4Jobs concept).
+
+LIBERIA “#1” DIFFERENTIATORS (must add)
+- National Job Creation Observatory:
+  - Model jobs as EMPLOYMENT SPELLS (start/end, employer, county, occupation, industry, wage band, hours).
+  - Record JOB CREATION EVENTS from multiple sources (employer reports, project reports, payroll/tax signals, surveys).
+  - Verification workflow + TRUST SCORE per record and per employer.
+  - Evidence capture (documents/photos) with secure storage links.
+- Privacy-by-design:
+  - Separate PII vault schema; analytics uses non-identifying IDs.
+  - Strong RBAC/ABAC, full audit logs, encryption at rest and in transit.
+- County dashboards (15 counties) with maps; show job counts and percent share by county, sector, sex, youth, disability, etc.
+- Offline-first mobile data capture for county/PEC officers (sync when online).
+- Open APIs + partner portal for donor projects and large employers.
+
+TECH STACK (implement exactly)
+- Frontend: Next.js (TypeScript) + Tailwind + component library; responsive UI.
+- Backend: Node.js (NestJS) + PostgreSQL; Prisma ORM.
+- Auth: OAuth2.1 / OpenID Connect (or built-in auth for MVP) + 2FA; RBAC.
+- Infra: Docker-compose for local; cloud-ready (Kubernetes manifests optional).
+- Messaging: Redis + BullMQ (or RabbitMQ) for background jobs (verification, ETL, notifications).
+- Storage: S3-compatible object storage for evidence files.
+- Analytics: Postgres read replicas + dbt-style transforms OR a small warehouse schema; dashboards rendered in-app.
+
+CORE MODULES (build all)
+1) Identity & Access: users, roles, permissions; organization accounts (MoL admin, LISGIS analyst, employer admin, PEC staff, donor viewer).
+2) Registry: employers, establishments, public employment centres, private employment agencies; geocoding to county/district.
+3) Labour Exchange:
+   - Job seeker profile + CV builder + skills tagging
+   - Vacancy posting + application workflow + messaging
+   - Matching service (rules-based MVP; ML-ready interface later)
+   - Counselling appointments
+4) Skills & Training:
+   - Training providers, courses, enrollments, certifications
+5) Jobs Observatory:
+   - employment_spells, job_creation_events, job_source
+   - verification_status + trust_score; employer trust snapshots
+6) USSD/SMS:
+   - USSD menus for “I’m looking for a job” / “I’m hiring”
+   - SMS notifications (application status, job matches)
+   - Call-center console to complete registrations on behalf of users
+7) Dashboards:
+   - Real-time national and county dashboards (jobs created, net jobs, retention, placements, vacancies, in-demand occupations)
+   - Export to CSV/PDF; scheduled monthly Cabinet report pack
+8) Audit & Compliance:
+   - immutable audit.event_log, admin activity trails, data access logs
+
+DATA MODEL REQUIREMENTS
+Implement the PostgreSQL schema based on:
+- ref.county, ref.district
+- ref.isco_unit_group, ref.isic_class
+- auth.user_account, auth.role, auth.user_role
+- org.employer, org.establishment, org.public_employment_centre, org.private_employment_agency
+- labour.person (non-PII), pii.person_identity (encrypted fields)
+- labour.job_seeker_profile, labour.skill, labour.job_seeker_skill
+- labour.training_provider, labour.course, labour.course_enrollment
+- jobs.vacancy, jobs.application
+- obs.employment_spell, obs.job_creation_event, obs.employer_trust_snapshot
+- audit.event_log
+
+SECURITY & QUALITY (must pass)
+- TLS everywhere; secrets via env + vault pattern; password hashing (argon2/bcrypt).
+- Input validation, rate limiting, OWASP protections.
+- Role-based access: donors can only see aggregates; PII only for authorized MoL admins and case officers.
+- Unit tests for services; integration tests for key flows.
+- Seed data for 15 counties; sample dashboard dataset.
+
+DELIVERABLES
+- Working web app + API + DB migrations
+- Docker-compose for local dev
+- README with setup, roles, sample credentials, and API docs (OpenAPI/Swagger)
+- Sample “Cabinet Monthly Jobs Report” PDF export
+- Postman collection (or REST client file)
+
+START NOW
+Generate the full repo structure, then implement database migrations, then backend endpoints, then frontend pages, then USSD/SMS stubs, then dashboards. Keep everything production-grade and well documented.

@@ -1,0 +1,379 @@
+You are a senior full-stack engineer + solution architect building a national-scale, enterprise-grade platform for the Government of Liberia. Your job is to NAME, DESIGN, DEVELOP, TEST, and PACKAGE a production-ready “National Job Creation Data Platform” that captures, verifies, and reports job creation across Liberia (public sector, private sector, informal economy, seasonal work, and donor/project-based jobs). Build it end-to-end with clean architecture, strong security, offline capability, and policy-ready analytics.
+
+──────────────────────────────────────────────────────────────────────────────
+1) PRODUCT NAME + BRANDING (DO THIS FIRST)
+──────────────────────────────────────────────────────────────────────────────
+Propose 3–5 strong names and pick the best one. It must communicate national scope + employment evidence + credibility.
+Include:
+- Product name (primary)
+- Acronym (optional)
+- Short tagline (<= 12 words)
+Default choice (if no better idea): “LJOBS – Liberia Jobs Observatory System”.
+
+──────────────────────────────────────────────────────────────────────────────
+2) PRODUCT VISION & NON-NEGOTIABLE PRINCIPLES
+──────────────────────────────────────────────────────────────────────────────
+Vision: A single national platform that provides real-time, trustworthy, privacy-safe job creation statistics for Liberia by tracking employment as time-bound “employment spells” (start/end), not vague headcounts.
+
+Non-negotiables:
+1) Job ≠ Person. A person can hold multiple jobs; a job can be filled by different people over time.
+2) Track “employment spells” with lifecycle events (hire, separation, transfer, suspension).
+3) Support ALL sectors: public, private, NGO/projects, informal, seasonal.
+4) Multi-channel data capture: web, mobile (offline), USSD/SMS, bulk upload, and API integrations.
+5) Verification & trust scoring: job claims must be verifiable via evidence and audits.
+6) Privacy-by-design: separate PII or hash identifiers; show only aggregated public stats.
+7) Strong audit trails and role-based access control.
+
+──────────────────────────────────────────────────────────────────────────────
+3) USERS & ROLES (ROLE-BASED ACCESS CONTROL)
+──────────────────────────────────────────────────────────────────────────────
+Implement RBAC + least privilege:
+- SUPERADMIN (national system admin)
+- MINISTRY_OF_LABOR_ADMIN (policy owner, can access national dashboards & manage governance)
+- MDA_ADMIN (public agency reporting + approvals)
+- SOE_ADMIN (state-owned enterprises reporting)
+- EMPLOYER_ADMIN (private employer reporting)
+- PROJECT_ADMIN (donor/NGO project reporting)
+- COUNTY_OFFICER (county labor office; verification and field support)
+- ENUMERATOR (field capture; limited edits; offline sync)
+- AUDITOR (audit visits; can upload evidence; cannot edit core records except audit notes)
+- ANALYST (read-only to analytics & reports)
+- PUBLIC_USER (public portal aggregated stats only)
+
+Authentication:
+- Email/password + MFA (TOTP) OR passwordless magic links
+- Optional SSO (OIDC/SAML ready) for government environments
+- Full session management and device login history
+
+──────────────────────────────────────────────────────────────────────────────
+4) KEY MODULES & FEATURES (BUILD ALL)
+──────────────────────────────────────────────────────────────────────────────
+A) National Job Registry (Core)
+- Employers/Organizations registry:
+  org types: PUBLIC_MDA, SOE, PRIVATE, NGO, DONOR_PROJECT, COOPERATIVE, INFORMAL_GROUP
+- Establishments/worksites with GIS point mapping (PostGIS)
+- Job positions (“job slots/roles”) and planned headcount
+- Employment spells linking person ↔ job_position:
+  - start_date, end_date, status (ACTIVE/ENDED/SUSPENDED)
+  - contract_type (permanent/fixed-term/apprentice/intern/self-employed)
+  - employment_type (full-time/part-time/seasonal/casual)
+  - wage band (privacy-safe)
+  - source_channel (HRMIS, employer portal, USSD, enumerator, API)
+- Job events: hire, confirmation, promotion, transfer, separation, leave, suspension
+- De-duplication: detect potential duplicate persons and merge with audit trail
+
+B) Informal Economy & MSME Capture
+- Self-report (worker or micro-business)
+- Simplified job declarations with minimal fields
+- Enumerator-assisted capture with offline-first mobile app
+- Seasonal job tagging (agriculture/fisheries/construction surges)
+- Verification workflows tailored for informal reporting:
+  - community confirmation
+  - site visit
+  - signed lists/photo evidence
+  - randomized audits
+
+C) Bulk Upload + Data Validation
+- Employer/MDA bulk upload (Excel/CSV templates downloadable)
+- Server-side validation and error reports
+- Partial acceptance: valid rows accepted, invalid flagged
+- Ingestion batch tracking with statuses (RECEIVED/VALIDATING/ACCEPTED/PARTIAL/REJECTED)
+- Data normalization rules + mapping to codes (occupation/sector/geography)
+
+D) Verification & Trust Scoring Engine
+- Verification case created per employment spell (or in batches)
+- Methods: PAYROLL_MATCH, TAX_MATCH, PROJECT_DOC, SITE_VISIT, COMMUNITY_CONFIRM, RANDOM_AUDIT
+- Evidence uploads: documents/photos/GPS check-in metadata
+- Trust score 0–100 with configurable weighting:
+  - payroll match = high
+  - tax match = high
+  - signed list + geo photo = medium
+  - self-report only = low
+- Verification status: PENDING/VERIFIED/REJECTED/NEEDS_REVIEW
+- Risk-based queue (prioritize high-impact employers, anomalies, rapid spikes)
+
+E) Analytics & Dashboards (Policy-ready)
+Dashboards must support:
+- National, county, district, and establishment views
+- Jobs created over time (daily/weekly/monthly/quarterly)
+- Net jobs (hires minus separations)
+- Disaggregation: gender, youth (age band), sector, occupation, job type, formal vs informal
+- Job sustainability: duration distribution, seasonal patterns, retention
+- Project job impacts: jobs by project, cost-per-job placeholders (if budget data supplied)
+- Verification quality: % verified, average trust score, records pending review
+- Heat maps and GIS layers (PostGIS + map component)
+- Export to PDF/Excel + scheduled report generation
+
+F) Public Transparency Portal (Privacy-safe)
+- Publish aggregated stats only (no PII)
+- Open data downloads at aggregated level (county/sector/time)
+- Clear methodology page (job definitions, verification model)
+- Accessibility compliant UI
+
+G) Audit Log & Compliance
+- Immutable audit log for all create/update/delete/login/export/verification actions
+- Evidence chain: who uploaded what and when
+- Tamper-resistant approach (append-only logs; optional hashing)
+
+H) Integrations (API-first)
+Build connectors (stub adapters if real systems unavailable):
+- CSA HRMIS/Payroll (read-only import)
+- Liberia Business Registry employer identity (read-only lookup)
+- Optional tax/revenue verification (permissioned)
+- Donor project systems (generic API import)
+All integrations must use:
+- API keys + OAuth2 client credentials
+- Rate limiting, retries, idempotency keys
+- Dead-letter queue for failed ingestion
+
+I) Offline-first Mobile App (Enumerator/County Officer)
+- Capture organizations, establishments, people (hashed), job positions, employment spells
+- Offline local database (SQLite)
+- Sync engine (conflict resolution rules)
+- GPS capture and timestamp for audit visits and evidence
+
+J) USSD/SMS Capture (Rural-friendly)
+- Minimal flows:
+  - Worker self-registration (optional)
+  - Job declaration (short)
+  - Verification callback / status
+- SMS parsing + short codes (simulate if no telecom access)
+
+──────────────────────────────────────────────────────────────────────────────
+5) DATA MODEL (USE THESE TABLES/CONCEPTS)
+──────────────────────────────────────────────────────────────────────────────
+Implement PostgreSQL + PostGIS with the following core entities:
+- ref tables: admin_area, sector (ISIC), occupation (ISCO), employment_type, contract_type, pay_type, wage_band, currency
+- org tables: organization, establishment, project
+- core tables: person (hashed identifiers), job_position, employment_spell, job_event
+- verif tables: verification_case, verification_evidence, audit_visit
+- ingest tables: upload_batch, upload_record
+- audit tables: event_log
+IMPORTANT PRIVACY RULE:
+- Do NOT store plaintext national IDs or phone numbers in core tables.
+- Store hashed values or keep PII in a separate encrypted schema if required.
+
+Provide database migrations and seed scripts with:
+- Liberia counties/district structure placeholder
+- Example sectors and occupations
+- Example wage bands
+
+──────────────────────────────────────────────────────────────────────────────
+6) TECH STACK (MANDATORY)
+──────────────────────────────────────────────────────────────────────────────
+Frontend (Web):
+- Next.js (TypeScript) + TailwindCSS
+- Component library: shadcn/ui or equivalent
+- State management: React Query (TanStack Query)
+- Forms: React Hook Form + Zod validation
+- Maps: Leaflet or Mapbox GL (Leaflet preferred to avoid keys)
+- Charts: Recharts
+- Internationalization-ready (en + simple localization hooks)
+
+Mobile:
+- React Native (TypeScript) OR Expo
+- Offline storage: SQLite
+- Sync: background sync with retry & conflict resolution
+
+Backend:
+- Node.js (TypeScript) with NestJS (preferred) or Fastify
+- REST API + optional GraphQL gateway (REST required)
+- Authentication: JWT + refresh tokens; MFA support
+- RBAC middleware + attribute-level permissions
+- Validation: Zod or class-validator
+- File storage: S3-compatible (MinIO for local dev)
+- Background jobs: BullMQ + Redis
+- Message queue (optional): RabbitMQ or Kafka (simulate if heavy)
+
+Database:
+- PostgreSQL 15+ with PostGIS
+- ORM: Prisma (preferred) or TypeORM
+- Migrations required
+
+Analytics:
+- Operational analytics in Postgres + materialized views
+- Optional warehouse adapter (stub): export to parquet/CSV
+
+DevOps:
+- Docker Compose for local dev (frontend, backend, db, redis, minio)
+- CI pipeline stub (GitHub Actions)
+- Kubernetes manifests optional, but include production deployment guide
+
+──────────────────────────────────────────────────────────────────────────────
+7) SECURITY & COMPLIANCE (ENTERPRISE-GRADE)
+──────────────────────────────────────────────────────────────────────────────
+Implement:
+- TLS enforced (dev notes ok)
+- Password policy + bcrypt/argon2
+- MFA (TOTP)
+- RBAC + route guards
+- Input validation + output encoding
+- CSRF protection for web sessions (if using cookies)
+- Rate limiting on auth endpoints and API gateway
+- Audit logging for every sensitive action
+- Data encryption at rest (document, env config; implement field encryption for PII schema if used)
+- Backups strategy documented
+- Logging/monitoring: structured logs + health endpoints
+- Privacy controls: consent flags, data minimization, retention policy fields
+
+──────────────────────────────────────────────────────────────────────────────
+8) FUNCTIONAL REQUIREMENTS (MUST IMPLEMENT)
+──────────────────────────────────────────────────────────────────────────────
+1) Employer onboarding workflow:
+   - create org, verify identity (document upload), approve by admin
+2) Job reporting workflows:
+   - create job positions, add employment spells, submit for verification
+3) Verification queue:
+   - list pending cases by risk score
+   - verify/reject, upload evidence, compute trust score
+4) Bulk upload:
+   - download template, upload file, validate, accept partial, show error rows
+5) GIS mapping:
+   - establishments plotted on map; filter by county/sector
+6) Dashboards:
+   - interactive charts + table views + exports
+7) Public portal:
+   - aggregated dashboards only + open methodology + downloads
+8) Offline enumerator:
+   - capture & sync; show sync status; resolve conflicts
+9) USSD/SMS simulation:
+   - build endpoints and a simple simulator page or CLI script
+10) Multi-tenant-ish separation:
+   - employers can only see their data; national admins see all
+
+──────────────────────────────────────────────────────────────────────────────
+9) NON-FUNCTIONAL REQUIREMENTS (MUST MEET)
+──────────────────────────────────────────────────────────────────────────────
+- Performance: handle 10k concurrent reads; 1k concurrent writes burst (queue where needed)
+- Availability: design for HA; stateless backend; database with replica
+- Scalability: horizontally scalable API + workers
+- Reliability: idempotent ingestion; retry-safe jobs; dead-letter queue
+- Maintainability: clean architecture, modular services, tests
+- Observability: metrics endpoints + request tracing IDs
+- Accessibility: WCAG-friendly UI patterns
+
+──────────────────────────────────────────────────────────────────────────────
+10) UI/UX REQUIREMENTS (MODERN GOVERNMENT-GRADE)
+──────────────────────────────────────────────────────────────────────────────
+Create a clean, modern UI with:
+- Left sidebar navigation
+- Role-aware menus
+- Responsive layouts
+- Fast search + filters everywhere (county/sector/time/status)
+Core pages:
+- Login + MFA
+- Admin dashboard
+- Organizations (list, create, approve)
+- Establishments (map + list)
+- Job positions
+- Employment spells (create/edit; timeline)
+- Bulk upload center
+- Verification queue + case detail view (evidence gallery)
+- Reports center (generate/export)
+- Public portal (separate route/app)
+
+──────────────────────────────────────────────────────────────────────────────
+11) API SPEC (REQUIRED)
+──────────────────────────────────────────────────────────────────────────────
+Provide OpenAPI (Swagger) docs covering:
+- Auth (login, refresh, mfa setup)
+- Orgs, establishments, projects
+- Positions, persons (hashed), employment spells, job events
+- Upload batches and record validation results
+- Verification cases + evidence upload endpoints
+- Analytics endpoints (aggregated)
+- Public endpoints (aggregated only)
+
+Important API patterns:
+- Pagination everywhere
+- Filtering: ?county_id=…&sector_id=…&date_from=…&date_to=…&status=…
+- Sorting
+- Idempotency keys for ingestion endpoints
+- Standard error format (RFC7807 style)
+
+──────────────────────────────────────────────────────────────────────────────
+12) ANALYTICS QUERIES (BUILD MATERIALIZED VIEWS)
+──────────────────────────────────────────────────────────────────────────────
+Create materialized views or precomputed tables for:
+- jobs_created_by_month_county_sector
+- net_jobs_by_month (hires - separations)
+- verification_summary_by_org
+- job_sustainability_duration_buckets
+- youth_gender_disaggregation_by_county
+Refresh strategy:
+- nightly refresh + incremental updates via triggers or job queue
+
+──────────────────────────────────────────────────────────────────────────────
+13) TESTING REQUIREMENTS (DO NOT SKIP)
+──────────────────────────────────────────────────────────────────────────────
+- Unit tests: services, validation, trust score logic
+- Integration tests: API endpoints + DB
+- E2E smoke tests: login, create org, upload jobs, verify, dashboard loads
+- Seed test data for demo environments
+
+──────────────────────────────────────────────────────────────────────────────
+14) DELIVERY OUTPUTS (WHAT YOU MUST PRODUCE)
+──────────────────────────────────────────────────────────────────────────────
+A) Repository structure:
+- /apps/web (Next.js)
+- /apps/api (NestJS)
+- /apps/mobile (React Native)
+- /packages/shared (types, validators)
+- /infra (docker-compose, scripts)
+- /docs (architecture, ERD, API docs, runbook)
+
+B) Documentation:
+- README with one-command local start (docker compose up)
+- Architecture document (components, security, data flow)
+- Database ERD (Mermaid)
+- API docs (Swagger)
+- Data governance notes (privacy model, verification model)
+- Deployment guide (staging/production)
+
+C) Demo Mode:
+- Seed data and admin account
+- Sample dashboards
+- Simulated USSD/SMS gateway
+
+──────────────────────────────────────────────────────────────────────────────
+15) IMPLEMENTATION PLAN (GENERATE IN DOCS)
+──────────────────────────────────────────────────────────────────────────────
+Create a phased delivery plan:
+- Phase 1 MVP: core registry + org onboarding + dashboards + bulk upload
+- Phase 2: verification engine + mobile offline + integrations stubs
+- Phase 3: public portal + advanced analytics + performance hardening
+
+──────────────────────────────────────────────────────────────────────────────
+16) IMPORTANT: WHAT TO BUILD FIRST (ORDER OF EXECUTION)
+──────────────────────────────────────────────────────────────────────────────
+1) Set up monorepo + shared types
+2) Implement auth + RBAC + audit logging
+3) Implement core entities (org, establishment, job position, person, employment spell, job events)
+4) Implement bulk upload + validation
+5) Implement verification cases + evidence storage + trust scoring
+6) Implement analytics materialized views + dashboards
+7) Implement mobile offline capture + sync
+8) Implement USSD/SMS simulator + endpoints
+9) Implement public portal
+10) Hardening: tests, docs, performance, security review
+
+──────────────────────────────────────────────────────────────────────────────
+17) ACCEPTANCE CRITERIA (MUST SATISFY)
+──────────────────────────────────────────────────────────────────────────────
+- A user can onboard an employer, submit jobs, and see them in dashboards within minutes.
+- Verification workflows exist with evidence uploads and trust scores.
+- Data can be captured offline and synced without data loss.
+- Public portal shows aggregated stats only.
+- Full audit log exists for all actions.
+- System starts locally with Docker and includes seed data.
+- OpenAPI docs exist and are accurate.
+
+Now begin building this system. Output:
+1) Final chosen name + branding,
+2) Repo structure and setup commands,
+3) Database migrations (Postgres/PostGIS),
+4) Backend API (NestJS) with Swagger,
+5) Web UI (Next.js) pages,
+6) Mobile app (offline + sync),
+7) Sample dashboards,
+8) Documentation and deployment guides.

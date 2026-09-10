@@ -1,0 +1,37 @@
+This training covers the bulk upload feature for employers who need to report many employees at once.
+
+Bulk upload is designed for organizations with more than ten employees. Instead of entering each person individually, you can prepare a spreadsheet and upload it all at once. This saves significant time and reduces data entry errors.
+
+Let's walk through the process step by step.
+
+First, navigate to the Report Jobs section and click on "Bulk Upload." You'll see two options: download a blank template or download a template pre-filled with your existing employees. For your first upload, download the blank template.
+
+Open the template in Excel or another spreadsheet program. You'll see columns for each required field: Employee First Name, Employee Last Name, Job Title, Sector, County, Start Date, End Date, Wage Amount, and Wage Period.
+
+Now fill in your employee data. Each row represents one employment spell. Start with the employee's first name in the first column, last name in the second. Be consistent with name formatting - use proper capitalization and avoid abbreviations.
+
+For job titles, use standard descriptions like "Accountant," "Driver," "Security Guard," or "Administrative Assistant." Consistent job titles help with national statistics.
+
+In the sector column, enter exactly one of these values: private, public, ngo, informal, or seasonal. Use lowercase. Any other value will cause an error.
+
+For counties, spell out the full county name: Montserrado, Margibi, Grand Bassa, and so on. Do not use abbreviations.
+
+Dates must be in the format YYYY-MM-DD. So January 15, 2024 becomes 2024-01-15. This international date format prevents confusion and errors.
+
+Leave the End Date empty for current employees. Only fill it in for employees who have left.
+
+For wages, enter just the number without currency symbols. In the Wage Period column, enter "daily," "weekly," or "monthly" to indicate how often this amount is paid.
+
+After filling in all your data, save the file. Return to LiJOBS and click "Choose File" to select your spreadsheet. The system will process your file and show a validation report.
+
+Review the validation report carefully. Green checkmarks indicate valid rows. Red X marks indicate errors that must be fixed. The report tells you exactly which cell has the problem and what needs to be corrected.
+
+Fix any errors in your spreadsheet and upload again. Repeat until all rows show green checkmarks.
+
+Once validation passes, click "Submit All" to send the data for verification. You'll see a confirmation showing how many employment spells were submitted.
+
+For large organizations, consider organizing your upload by department or location. This makes it easier to track verifications and identify any issues.
+
+Monthly updates are recommended. Each month, download your existing employee template, update any changes like new hires or departures, and re-upload. The system will recognize existing employees and only process the changes.
+
+Bulk upload saves time while maintaining data accuracy. Use it to efficiently fulfill your reporting obligations to LiJOBS.

@@ -1,0 +1,21 @@
+Ready to join LiJOBS? Let me guide you through the registration process step by step.
+
+First, visit the LiJOBS website and look for the "Get Started" or "Register" button in the top right corner of the page. Click on it to begin your registration journey.
+
+You'll be presented with a choice of account types. Select the one that best describes your role. Are you an employer who wants to report jobs? Choose "Employer" and then select whether you're in the private sector, public sector, or an NGO. Are you an individual worker who wants to track your employment history? Choose "Individual Worker." Government officials and enumerators will have their accounts created by system administrators.
+
+Now let's fill in your information. Enter your first name and last name as they appear on official documents. Provide a valid email address - this will be your login username and where we'll send important notifications. Create a strong password with at least eight characters, including uppercase letters, lowercase letters, and numbers.
+
+If you're registering as an employer, you'll need to provide additional information. Enter your organization's official name. Select your county of primary operation. Provide a business registration number if you have one. The more complete your profile, the faster your verification will be processed.
+
+After filling in all required fields, click the "Create Account" button. You'll see a confirmation message, and we'll send a verification email to your address. Check your inbox and click the verification link to activate your account.
+
+Once your account is activated, log in using your email and password. For employers, your account will be in "pending verification" status until our team reviews your information. This usually takes one to three business days. You'll receive an email when your account is fully verified.
+
+While waiting for verification, you can explore your dashboard, update your profile, and familiarize yourself with the platform. Once verified, employers can begin reporting employment spells immediately.
+
+For individual workers, your account is active right away. You can start adding your employment history, which helps build your official work record in the national system.
+
+Remember to keep your login credentials secure. Enable two-factor authentication if available for extra security. And if you ever forget your password, use the "Forgot Password" link on the login page to reset it.
+
+Welcome to LiJOBS. Your participation helps build a more transparent and accurate picture of employment in Liberia.

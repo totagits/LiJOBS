@@ -1,0 +1,31 @@
+Scene 1
+intro
+Welcome to the Ministry of Labor Data Collection and Entry training. As a Ministry enumerator or data entry staff member, your work forms the foundation of Liberia's official employment statistics. Every record you enter into LiJOBS becomes part of the national picture of job creation, used by the Minister, international partners like the ILO and World Bank, and policymakers to make decisions that affect millions of Liberians.
+
+Scene 2
+data
+Let's start with what an employment spell is. An employment spell is a period of time that a person works for a specific employer in a specific job. It tracks the worker's identity including name, age, gender, county, and district. It records the employer's company name, sector, and registration status. It captures job details like title, ISCO occupation code, and ISIC industry code. And it tracks dates, employment type, and wage information.
+
+Scene 3
+people
+Field collection protocol. When visiting an employer or worksite, first introduce yourself with your Ministry ID and explain the purpose of data collection. Request to speak with the HR manager or business owner. Collect the employer's registration details first. For each worker, record all required fields, never leave fields blank. Cross-check worker counts with payroll records where available. Have the employer sign the verification form. Note any discrepancies or concerns in the comments field.
+
+Scene 4
+technology
+Creating employment spells in LiJOBS. Log into LiJOBS with your enumerator credentials. From your dashboard, click Report New Jobs. Enter the worker's full legal name, gender, date of birth, county and district where they work. Then enter employer details, either by searching for an existing employer or creating a new record. Enter job details including the job title, ISCO-08 code using the lookup tool, employment type whether formal or informal, and the monthly wage in the correct currency.
+
+Scene 5
+office
+Common mistakes to avoid. Never enter approximate dates, always ask for the actual start date. Use the correct ISCO code by referring to the code lookup tool in LiJOBS. Always include both county and district for every record. Confirm whether wages are in Liberian Dollars or US Dollars. Never duplicate records for the same worker at the same employer. If you discover an error, do not create a new record. Find the original record, click Edit, and correct the specific field.
+
+Scene 6
+data
+Data quality is critical. LiJOBS calculates a data quality score for every batch of records based on completeness, consistency, uniqueness, and timeliness. Your goal should be a score above ninety percent for every submission batch. The most common error is duplicate records, which happens when the same worker is entered twice or two enumerators visit the same worksite. Always search for existing records before creating new ones.
+
+Scene 7
+government
+After submission, each record enters the three-layer verification pipeline. First, the employer confirms the worker is employed. Then an enumerator conducts a field verification. Finally, the Director of Statistics gives final approval. This verification process is what gives LiJOBS data its trustworthiness and credibility with international partners.
+
+Scene 8
+success
+Your work directly impacts the quality of Liberia's employment data. Accurate data collection helps the government design better employment policies, helps international partners target their interventions, and helps all Liberians see the true picture of job creation in our country. Thank you for your commitment to accuracy and integrity.

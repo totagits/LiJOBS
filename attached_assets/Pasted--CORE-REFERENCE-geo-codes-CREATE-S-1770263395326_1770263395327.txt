@@ -1,0 +1,264 @@
+-- =========================
+-- CORE REFERENCE (geo, codes)
+-- =========================
+CREATE SCHEMA IF NOT EXISTS ref;
+CREATE SCHEMA IF NOT EXISTS auth;
+CREATE SCHEMA IF NOT EXISTS org;
+CREATE SCHEMA IF NOT EXISTS labour;
+CREATE SCHEMA IF NOT EXISTS jobs;
+CREATE SCHEMA IF NOT EXISTS obs;
+CREATE SCHEMA IF NOT EXISTS pii;
+CREATE SCHEMA IF NOT EXISTS audit;
+
+CREATE TABLE ref.county (
+  county_id SMALLSERIAL PRIMARY KEY,
+  name TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE ref.district (
+  district_id SMALLSERIAL PRIMARY KEY,
+  county_id SMALLINT NOT NULL REFERENCES ref.county(county_id),
+  name TEXT NOT NULL,
+  UNIQUE(county_id, name)
+);
+
+-- ISCO / ISIC code tables (load from official code lists)
+CREATE TABLE ref.isco_unit_group (
+  code TEXT PRIMARY KEY,          -- e.g., "2411"
+  title TEXT NOT NULL
+);
+
+CREATE TABLE ref.isic_class (
+  code TEXT PRIMARY KEY,          -- e.g., "6201"
+  title TEXT NOT NULL
+);
+
+-- =========================
+-- AUTH & RBAC
+-- =========================
+CREATE TABLE auth.user_account (
+  user_id UUID PRIMARY KEY,
+  email CITEXT UNIQUE,
+  phone_e164 TEXT UNIQUE,
+  password_hash TEXT,             -- if not using external IdP
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE auth.role (
+  role_id SMALLSERIAL PRIMARY KEY,
+  name TEXT UNIQUE NOT NULL        -- e.g., ADMIN, MOL_ANALYST, EMPLOYER, PEC_STAFF, DONOR_VIEWER
+);
+
+CREATE TABLE auth.user_role (
+  user_id UUID NOT NULL REFERENCES auth.user_account(user_id) ON DELETE CASCADE,
+  role_id SMALLINT NOT NULL REFERENCES auth.role(role_id) ON DELETE CASCADE,
+  PRIMARY KEY (user_id, role_id)
+);
+
+-- =========================
+-- ORGANIZATIONS (employers, agencies, centres)
+-- =========================
+CREATE TABLE org.employer (
+  employer_id UUID PRIMARY KEY,
+  legal_name TEXT NOT NULL,
+  trading_name TEXT,
+  is_public_sector BOOLEAN NOT NULL DEFAULT FALSE,
+  tax_id_hash TEXT,                       -- store hashed, not raw
+  registration_id_hash TEXT,              -- store hashed, not raw
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE org.establishment (
+  establishment_id UUID PRIMARY KEY,
+  employer_id UUID NOT NULL REFERENCES org.employer(employer_id) ON DELETE CASCADE,
+  county_id SMALLINT NOT NULL REFERENCES ref.county(county_id),
+  district_id SMALLINT REFERENCES ref.district(district_id),
+  address_text TEXT,
+  geo_lat NUMERIC(9,6),
+  geo_lng NUMERIC(9,6),
+  isic_code TEXT REFERENCES ref.isic_class(code),
+  employee_size_band TEXT,                -- e.g., 1-4, 5-9, 10-49, 50-249, 250+
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE org.public_employment_centre (
+  pec_id UUID PRIMARY KEY,
+  name TEXT NOT NULL,
+  county_id SMALLINT NOT NULL REFERENCES ref.county(county_id),
+  district_id SMALLINT REFERENCES ref.district(district_id),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE org.private_employment_agency (
+  pea_id UUID PRIMARY KEY,
+  employer_id UUID NOT NULL REFERENCES org.employer(employer_id),
+  license_status TEXT NOT NULL,           -- ACTIVE/SUSPENDED/EXPIRED
+  license_valid_to DATE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- =========================
+-- PERSON (privacy-safe link; PII stored separately)
+-- =========================
+CREATE TABLE labour.person (
+  person_id UUID PRIMARY KEY,
+  person_uid TEXT UNIQUE NOT NULL,         -- random, non-guessable public identifier
+  county_id SMALLINT REFERENCES ref.county(county_id),
+  district_id SMALLINT REFERENCES ref.district(district_id),
+  sex TEXT,                                -- use controlled vocab in app
+  birth_year SMALLINT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- PII vault (locked down)
+CREATE TABLE pii.person_identity (
+  person_id UUID PRIMARY KEY REFERENCES labour.person(person_id) ON DELETE CASCADE,
+  full_name_enc BYTEA,                     -- encrypted at app layer / KMS envelope
+  phone_enc BYTEA,
+  email_enc BYTEA,
+  national_id_hash TEXT,                   -- hashed if used for dedupe
+  consent_version TEXT,
+  consent_at TIMESTAMPTZ
+);
+
+-- =========================
+-- JOB SEEKER / CV / SKILLS / TRAINING (GLMIS/ANPEJ-style)
+-- =========================
+CREATE TABLE labour.job_seeker_profile (
+  person_id UUID PRIMARY KEY REFERENCES labour.person(person_id) ON DELETE CASCADE,
+  headline TEXT,
+  summary TEXT,
+  highest_education TEXT,
+  years_experience NUMERIC(4,1) DEFAULT 0,
+  is_open_to_work BOOLEAN DEFAULT TRUE,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE labour.skill (
+  skill_id BIGSERIAL PRIMARY KEY,
+  name TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE labour.job_seeker_skill (
+  person_id UUID NOT NULL REFERENCES labour.person(person_id) ON DELETE CASCADE,
+  skill_id BIGINT NOT NULL REFERENCES labour.skill(skill_id) ON DELETE CASCADE,
+  level SMALLINT,                          -- 1-5
+  PRIMARY KEY (person_id, skill_id)
+);
+
+CREATE TABLE labour.training_provider (
+  provider_id UUID PRIMARY KEY,
+  name TEXT NOT NULL,
+  county_id SMALLINT REFERENCES ref.county(county_id),
+  accreditation_status TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE labour.course (
+  course_id UUID PRIMARY KEY,
+  provider_id UUID NOT NULL REFERENCES labour.training_provider(provider_id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
+  duration_weeks SMALLINT,
+  cost_range TEXT,
+  skills_covered TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE labour.course_enrollment (
+  enrollment_id UUID PRIMARY KEY,
+  person_id UUID NOT NULL REFERENCES labour.person(person_id) ON DELETE CASCADE,
+  course_id UUID NOT NULL REFERENCES labour.course(course_id) ON DELETE CASCADE,
+  status TEXT NOT NULL,                    -- ENROLLED/COMPLETED/DROPPED
+  enrolled_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  completed_at TIMESTAMPTZ
+);
+
+-- =========================
+-- VACANCIES / APPLICATIONS (NELEX-style)
+-- =========================
+CREATE TABLE jobs.vacancy (
+  vacancy_id UUID PRIMARY KEY,
+  employer_id UUID NOT NULL REFERENCES org.employer(employer_id),
+  establishment_id UUID REFERENCES org.establishment(establishment_id),
+  title TEXT NOT NULL,
+  isco_code TEXT REFERENCES ref.isco_unit_group(code),
+  isic_code TEXT REFERENCES ref.isic_class(code),
+  county_id SMALLINT REFERENCES ref.county(county_id),
+  district_id SMALLINT REFERENCES ref.district(district_id),
+  contract_type TEXT,                      -- PERM/TEMP/APPRENTICE/INTERN/GIG
+  work_mode TEXT,                          -- ONSITE/HYBRID/REMOTE
+  wage_band TEXT,
+  openings INT NOT NULL DEFAULT 1,
+  status TEXT NOT NULL DEFAULT 'OPEN',     -- OPEN/CLOSED/PAUSED
+  posted_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE jobs.application (
+  application_id UUID PRIMARY KEY,
+  vacancy_id UUID NOT NULL REFERENCES jobs.vacancy(vacancy_id) ON DELETE CASCADE,
+  person_id UUID NOT NULL REFERENCES labour.person(person_id) ON DELETE CASCADE,
+  status TEXT NOT NULL DEFAULT 'SUBMITTED', -- SUBMITTED/SHORTLISTED/INTERVIEW/OFFERED/HIRED/REJECTED
+  applied_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE(vacancy_id, person_id)
+);
+
+-- =========================
+-- JOB CREATION OBSERVATORY (the differentiator)
+-- =========================
+CREATE TABLE obs.job_source (
+  source_id SMALLSERIAL PRIMARY KEY,
+  name TEXT UNIQUE NOT NULL                -- EMPLOYER_SELF_REPORT, PAYROLL_SIGNAL, PROJECT_REPORT, SURVEY, AGENCY_REPORT
+);
+
+CREATE TABLE obs.employment_spell (
+  spell_id UUID PRIMARY KEY,
+  person_id UUID NOT NULL REFERENCES labour.person(person_id),
+  employer_id UUID NOT NULL REFERENCES org.employer(employer_id),
+  establishment_id UUID REFERENCES org.establishment(establishment_id),
+  isco_code TEXT REFERENCES ref.isco_unit_group(code),
+  isic_code TEXT REFERENCES ref.isic_class(code),
+  county_id SMALLINT REFERENCES ref.county(county_id),
+  start_date DATE NOT NULL,
+  end_date DATE,                           -- null if active
+  hours_per_week NUMERIC(4,1),
+  wage_band TEXT,
+  formal_indicator TEXT,                   -- FORMAL/INFORMAL/UNKNOWN (estimation logic)
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE obs.job_creation_event (
+  event_id UUID PRIMARY KEY,
+  spell_id UUID NOT NULL REFERENCES obs.employment_spell(spell_id) ON DELETE CASCADE,
+  source_id SMALLINT NOT NULL REFERENCES obs.job_source(source_id),
+  reported_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  evidence_type TEXT,                      -- CONTRACT, PAYSLIP, PAYROLL_FILE, FIELD_VISIT, SURVEY
+  evidence_uri TEXT,                       -- object storage link
+  verification_status TEXT NOT NULL DEFAULT 'SELF_REPORTED', -- SELF_REPORTED/PARTIAL/VERIFIED/REJECTED
+  trust_score NUMERIC(4,3) NOT NULL DEFAULT 0.300
+);
+
+-- Employer-level trust aggregation (fast dashboards)
+CREATE TABLE obs.employer_trust_snapshot (
+  employer_id UUID PRIMARY KEY REFERENCES org.employer(employer_id) ON DELETE CASCADE,
+  as_of_date DATE NOT NULL,
+  trust_score NUMERIC(4,3) NOT NULL,
+  verified_share NUMERIC(5,2) NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- =========================
+-- AUDIT LOG (immutable)
+-- =========================
+CREATE TABLE audit.event_log (
+  audit_id BIGSERIAL PRIMARY KEY,
+  occurred_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  actor_user_id UUID REFERENCES auth.user_account(user_id),
+  action TEXT NOT NULL,
+  entity_type TEXT NOT NULL,
+  entity_id TEXT NOT NULL,
+  ip TEXT,
+  user_agent TEXT,
+  details JSONB
+);

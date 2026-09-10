@@ -1,0 +1,475 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* LIGHT MODE - Liberian Flag Inspired Theme (Red, White, Blue) */
+:root {
+  --button-outline: rgba(0,0,0, .10);
+  --badge-outline: rgba(0,0,0, .05);
+
+  /* Automatic computation of border around primary / danger buttons */
+  --opaque-button-border-intensity: -8; /* In terms of percentages */
+
+  /* Backgrounds applied on top of other backgrounds when hovered/active */
+  --elevate-1: rgba(0,0,0, .03);
+  --elevate-2: rgba(0,0,0, .08);
+
+  /* Liberian-inspired light mode palette */
+  --background: 0 0% 100%;
+  --foreground: 222 47% 11%;
+
+  --border: 214 20% 88%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --card-border: 214 20% 90%;
+
+  --sidebar: 220 14% 96%;
+  --sidebar-foreground: 222 47% 11%;
+  --sidebar-border: 214 20% 88%;
+  --sidebar-primary: 215 79% 34%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 355 78% 45%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-ring: 215 79% 34%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --popover-border: 214 20% 88%;
+
+  /* Primary - Liberian Blue */
+  --primary: 215 79% 34%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Secondary - Liberian Red */
+  --secondary: 355 78% 45%;
+  --secondary-foreground: 0 0% 100%;
+
+  /* Muted - Light Gray */
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 9% 46%;
+
+  /* Accent - Lighter Blue */
+  --accent: 215 79% 94%;
+  --accent-foreground: 215 79% 25%;
+
+  /* Destructive - Red */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --input: 214 20% 85%;
+  --ring: 215 79% 34%;
+
+  /* Chart colors inspired by Liberian palette */
+  --chart-1: 215 79% 34%;
+  --chart-2: 355 78% 45%;
+  --chart-3: 142 71% 45%;
+  --chart-4: 43 96% 56%;
+  --chart-5: 262 83% 58%;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Menlo, monospace;
+  --radius: .5rem;
+  --shadow-2xs: 0 1px 2px 0 rgba(0,0,0,0.03);
+  --shadow-xs: 0 1px 3px 0 rgba(0,0,0,0.05);
+  --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05), 0 1px 3px 0 rgba(0,0,0,0.1);
+  --shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0,0,0,0.25);
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+
+  /* Automatically computed borders */
+  --sidebar-primary-border: hsl(var(--sidebar-primary));
+  --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --sidebar-accent-border: hsl(var(--sidebar-accent));
+  --sidebar-accent-border: hsl(from hsl(var(--sidebar-accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --primary-border: hsl(var(--primary));
+  --primary-border: hsl(from hsl(var(--primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --secondary-border: hsl(var(--secondary));
+  --secondary-border: hsl(from hsl(var(--secondary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --muted-border: hsl(var(--muted));
+  --muted-border: hsl(from hsl(var(--muted)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --accent-border: hsl(var(--accent));
+  --accent-border: hsl(from hsl(var(--accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --destructive-border: hsl(var(--destructive));
+  --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+}
+
+.dark {
+  --button-outline: rgba(255,255,255, .10);
+  --badge-outline: rgba(255,255,255, .05);
+  --opaque-button-border-intensity: 9;
+
+  /* Backgrounds applied on top of other backgrounds when hovered/active */
+  --elevate-1: rgba(255,255,255, .04);
+  --elevate-2: rgba(255,255,255, .09);
+
+  /* Liberian-inspired dark mode palette */
+  --background: 222 47% 8%;
+  --foreground: 210 40% 98%;
+
+  --border: 217 19% 20%;
+
+  --card: 222 47% 11%;
+  --card-foreground: 210 40% 98%;
+  --card-border: 217 19% 22%;
+
+  --sidebar: 222 47% 10%;
+  --sidebar-foreground: 210 40% 98%;
+  --sidebar-border: 217 19% 20%;
+  --sidebar-primary: 215 79% 50%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 355 78% 55%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-ring: 215 79% 50%;
+
+  --popover: 222 47% 11%;
+  --popover-foreground: 210 40% 98%;
+  --popover-border: 217 19% 22%;
+
+  /* Primary - Liberian Blue (brighter in dark mode) */
+  --primary: 215 79% 50%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Secondary - Liberian Red (brighter in dark mode) */
+  --secondary: 355 78% 55%;
+  --secondary-foreground: 0 0% 100%;
+
+  /* Muted */
+  --muted: 217 19% 18%;
+  --muted-foreground: 215 16% 60%;
+
+  /* Accent */
+  --accent: 215 50% 20%;
+  --accent-foreground: 215 79% 80%;
+
+  /* Destructive */
+  --destructive: 0 72% 55%;
+  --destructive-foreground: 0 0% 100%;
+
+  --input: 217 19% 25%;
+  --ring: 215 79% 50%;
+
+  /* Chart colors */
+  --chart-1: 215 79% 55%;
+  --chart-2: 355 78% 60%;
+  --chart-3: 142 71% 50%;
+  --chart-4: 43 96% 60%;
+  --chart-5: 262 83% 65%;
+
+  --shadow-2xs: 0 1px 2px 0 rgba(0,0,0,0.2);
+  --shadow-xs: 0 1px 3px 0 rgba(0,0,0,0.3);
+  --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.3), 0 1px 3px 0 rgba(0,0,0,0.4);
+  --shadow: 0 1px 3px 0 rgba(0,0,0,0.4), 0 1px 2px -1px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.4), 0 2px 4px -2px rgba(0,0,0,0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.4), 0 4px 6px -4px rgba(0,0,0,0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.4), 0 8px 10px -6px rgba(0,0,0,0.4);
+  --shadow-2xl: 0 25px 50px -12px rgba(0,0,0,0.6);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased text-foreground;
+    background: linear-gradient(
+      150deg,
+      hsl(355 70% 88%) 0%,
+      hsl(0 0% 97%) 35%,
+      hsl(215 60% 88%) 70%,
+      hsl(355 50% 90%) 100%
+    );
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  .dark body {
+    background: linear-gradient(
+      150deg,
+      hsl(355 40% 14%) 0%,
+      hsl(222 47% 8%) 35%,
+      hsl(215 50% 15%) 70%,
+      hsl(355 30% 12%) 100%
+    );
+  }
+}
+
+/* Liberian gradient utility classes */
+@layer utilities {
+
+  .liberian-gradient {
+    background: linear-gradient(135deg, 
+      hsl(355 78% 45%) 0%, 
+      hsl(0 0% 100%) 50%, 
+      hsl(215 79% 34%) 100%
+    );
+  }
+
+  .liberian-gradient-horizontal {
+    background: linear-gradient(90deg, 
+      hsl(355 78% 45%) 0%, 
+      hsl(355 78% 45%) 33.33%, 
+      hsl(0 0% 100%) 33.33%, 
+      hsl(0 0% 100%) 66.66%, 
+      hsl(215 79% 34%) 66.66%, 
+      hsl(215 79% 34%) 100%
+    );
+  }
+
+  .liberian-gradient-overlay {
+    background: linear-gradient(135deg, 
+      hsla(355, 78%, 45%, 0.9) 0%, 
+      hsla(215, 79%, 34%, 0.85) 100%
+    );
+  }
+
+  .liberian-hero-gradient {
+    background: linear-gradient(135deg, 
+      hsl(215 79% 25%) 0%, 
+      hsl(215 79% 34%) 30%, 
+      hsl(355 78% 40%) 70%, 
+      hsl(355 78% 35%) 100%
+    );
+  }
+
+  .text-gradient-liberia {
+    background: linear-gradient(90deg, 
+      hsl(355 78% 45%) 0%, 
+      hsl(215 79% 34%) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Hide ugly search cancel button in Chrome until we can style it properly */
+  input[type="search"]::-webkit-search-cancel-button {
+    @apply hidden;
+  }
+
+  /* Placeholder styling for contentEditable div */
+  [contenteditable][data-placeholder]:empty::before {
+    content: attr(data-placeholder);
+    color: hsl(var(--muted-foreground));
+    pointer-events: none;
+  }
+
+  .no-default-hover-elevate {}
+  .no-default-active-elevate {}
+
+  .toggle-elevate::before,
+  .toggle-elevate-2::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0px;
+    border-radius: inherit;
+    z-index: -1;
+  }
+
+  .toggle-elevate.toggle-elevated::before {
+    background-color: var(--elevate-2);
+  }
+
+  .border.toggle-elevate::before {
+    inset: -1px;
+  }
+
+  .hover-elevate:not(.no-default-hover-elevate),
+  .active-elevate:not(.no-default-active-elevate),
+  .hover-elevate-2:not(.no-default-hover-elevate),
+  .active-elevate-2:not(.no-default-active-elevate) {
+    position: relative;
+    z-index: 0;
+  }
+
+  .hover-elevate:not(.no-default-hover-elevate)::after,
+  .active-elevate:not(.no-default-active-elevate)::after,
+  .hover-elevate-2:not(.no-default-hover-elevate)::after,
+  .active-elevate-2:not(.no-default-active-elevate)::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0px;
+    border-radius: inherit;
+    z-index: 999;
+  }
+
+  .hover-elevate:hover:not(.no-default-hover-elevate)::after,
+  .active-elevate:active:not(.no-default-active-elevate)::after {
+    background-color: var(--elevate-1);
+  }
+
+  .hover-elevate-2:hover:not(.no-default-hover-elevate)::after,
+  .active-elevate-2:active:not(.no-default-active-elevate)::after {
+    background-color: var(--elevate-2);
+  }
+
+  .border.hover-elevate:not(.no-hover-interaction-elevate)::after,
+  .border.active-elevate:not(.no-active-interaction-elevate)::after,
+  .border.hover-elevate-2:not(.no-hover-interaction-elevate)::after,
+  .border.active-elevate-2:not(.no-active-interaction-elevate)::after,
+  .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
+    inset: -1px;
+  }
+}
+
+/* Custom scrollbar for the app */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Animation utilities */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes count-up {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.5s ease-out forwards;
+}
+
+.animate-count-up {
+  animation: count-up 0.4s ease-out forwards;
+}
+
+@keyframes logo-breathe {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.08);
+  }
+}
+
+.animate-logo-breathe {
+  animation: logo-breathe 1.8s ease-in-out infinite;
+}
+
+/* Staggered animation delays */
+.animation-delay-100 { animation-delay: 100ms; }
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-300 { animation-delay: 300ms; }
+.animation-delay-400 { animation-delay: 400ms; }
+.animation-delay-500 { animation-delay: 500ms; }
+.animation-delay-600 { animation-delay: 600ms; }
+
+/* High Contrast Mode (Accessibility) */
+.high-contrast {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --card: 0 0% 5%;
+  --card-foreground: 0 0% 100%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 85%;
+  --border: 0 0% 40%;
+  --input: 0 0% 30%;
+}
+
+.high-contrast * {
+  border-color: hsl(0 0% 60%) !important;
+}
+
+.high-contrast img {
+  filter: contrast(1.2);
+}
+
+@keyframes ribbonFlutter {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-1.5px) rotate(0.4deg); }
+  50% { transform: translateY(0.5px) rotate(-0.2deg); }
+  75% { transform: translateY(-0.8px) rotate(0.2deg); }
+}
+
+.ribbon-flutter {
+  animation: ribbonFlutter 3.5s ease-in-out infinite;
+  transform-origin: left center;
+}

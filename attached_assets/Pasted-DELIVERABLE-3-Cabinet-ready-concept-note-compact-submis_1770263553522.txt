@@ -1,0 +1,143 @@
+DELIVERABLE 3 — Cabinet-ready concept note (compact, submission-ready)
+Title
+
+LiJOBS — Liberia Jobs Observatory & Labour Exchange System
+A National Job Creation Data Platform for Real-Time, Trustworthy, Privacy-Safe Employment Statistics and Employment Services.
+
+Sponsoring Institution
+
+Ministry of Labour (MoL) in collaboration with LISGIS and key MDAs; implemented through a national steering committee and a technical program unit.
+
+Problem Statement
+
+Liberia cannot reliably answer, in near real-time, “How many jobs were created, where, by whom, for whom, and for how long?” across public and private sectors—especially in an economy with significant informal employment. This limits evidence-based policymaking, accountability for public investments, targeting of skills programs, and credibility with donors/investors.
+
+Goal
+
+Establish a single national platform that (1) measures and verifies job creation and (2) provides labour exchange services to reduce job-matching frictions, while protecting citizens’ privacy.
+
+Objectives
+
+Produce national, county, district, and sector dashboards on job creation, retention, and labour underutilization using recognised labour-stat concepts.
+
+Deploy a digital labour exchange (job seeker registry, vacancies, matching, counselling, training provider directory) comparable to leading regional systems.
+
+Introduce inclusive access via USSD/SMS and assisted service delivery for rural and low-connectivity populations.
+
+Implement privacy-by-design governance (data minimization, purpose limitation, secure PII vault, audited access).
+
+Scope (What the system will do)
+
+Labour Exchange & Services: vacancies, applications, matching, employer onboarding, counselling appointments, training/certification linkages.
+
+Jobs Observatory: employment spells + job creation events; verification workflows and trust scoring; county dashboards.
+
+Institutional Workflows: Public Employment Centres (PEC) and county labour offices operate as assisted digital service points (like Nigeria’s exchanges).
+
+Standards: occupational/industry coding aligned to ISCO-08 and ISIC Rev.4.
+
+Governance
+
+Steering Committee: MoL (chair), LISGIS, Ministry of Finance, CSA, key private-sector bodies, development partners.
+
+Data Protection & Ethics: legal basis, consent management, data-sharing MoUs, independent oversight and audit.
+
+Implementation approach (phased)
+
+Phase 1 (MVP, 4–6 months): registry + vacancies + basic dashboards + USSD/SMS intake + core job creation reporting.
+
+Phase 2 (6–12 months): verification engine + payroll/tax signals + PEC workflows + training provider marketplace.
+
+Phase 3 (12–24 months): forecasting/AI insights, deeper integrations, open-data products, national scale-up.
+
+Expected outcomes
+
+Credible “jobs created” reporting for Cabinet and partners.
+
+Reduced job search frictions and better placement outcomes.
+
+Improved targeting of skills programs using labour-market intelligence.
+
+DELIVERABLE 4 — Donor funding proposal (World Bank / AfDB / ILO style, condensed)
+1. Project Summary
+
+Project Name: LiJOBS — Liberia Jobs Observatory & Labour Exchange
+Implementing Agency: Ministry of Labour (MoL)
+Executing Partners: LISGIS; selected MDAs; telecoms; private sector bodies
+Duration: 24 months (with 5-year sustainability plan)
+Total Budget (indicative): USD 6.5M–9.0M (finalized after technical design & costing)
+
+2. Development Objective
+
+Increase employment outcomes and the credibility of job creation statistics by establishing an integrated national labour exchange and job creation observatory, aligned with international labour-stat standards.
+
+3. Rationale / Evidence
+
+Leading peers combine job matching + labour-market intelligence (Ghana GLMIS, Nigeria NELEX, Senegal SIME).
+
+Inclusive access (USSD/call center) materially expands reach beyond smartphone users (Text4Jobs proof-of-concept).
+
+4. Components and Activities
+Component 1 — Digital Labour Exchange & Assisted Service Delivery (USD 2.0M–2.6M)
+
+Job seeker registry, vacancies, applications, matching, counselling booking, employer services.
+
+PEC/county-office workflows, training + SOPs, service quality monitoring.
+
+Component 2 — Job Creation Observatory & Verification (USD 1.6M–2.4M)
+
+Employment spells + job creation events; evidence capture; verification sampling; trust scoring; audits.
+
+Public investment/donor project reporting module with geo-tagging to county.
+
+Component 3 — Labour Market Intelligence, Standards, and Open Data (USD 1.0M–1.6M)
+
+Standards alignment (ISCO-08 / ISIC Rev.4) and metadata.
+
+Dashboards, policy briefs, skills demand insights; secure microdata access for authorized analysts.
+
+Component 4 — Inclusion, Privacy, and Safeguards (USD 0.8M–1.2M)
+
+USSD/SMS + call center integration (inclusive design).
+
+Data protection governance (minimization, purpose limitation, audit logging).
+
+Component 5 — Project Management, M&E, and Sustainability (USD 1.1M–1.2M)
+
+PMU staffing, change management, procurement support, M&E framework, sustainability planning.
+
+5. Results Framework (sample)
+
+PDO Indicator 1: % of job creation records with Verified/Partial verification status.
+
+PDO Indicator 2: # of placements facilitated through the platform (disaggregated by sex, age, county).
+
+PDO Indicator 3: Time-to-publish national job creation dashboard (days after month-end).
+
+Intermediate: # employers onboarded; # PEC staff trained; # USSD users; # training providers listed.
+
+6. Implementation Arrangements
+
+PMU housed at MoL; technical delivery via competitively procured systems integrator(s).
+
+Data-sharing MoUs with LISGIS, payroll/tax systems (as feasible), and donor programs.
+
+7. Procurement Plan (high-level)
+
+Lot 1: Software platform build + cloud deployment + security hardening
+
+Lot 2: USSD/SMS + call center integration
+
+Lot 3: Change management + training + M&E
+
+Lot 4: Independent security and data protection audit
+
+8. Risks and Mitigation
+
+Data quality: verification engine + sampling audits + employer trust scoring
+
+Adoption: PEC workflows + incentives + employer onboarding support
+
+Privacy: separated PII vault + strict RBAC + minimization + audit logs
+
+Sustainability: staged O&M financing plan + capacity transfer + local hosting options

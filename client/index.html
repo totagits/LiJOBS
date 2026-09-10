@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5, user-scalable=yes" />
+    <title>LiJOBS - Liberia Jobs Observatory System | National Job Creation Data Platform</title>
+    <meta name="description" content="The official National Job Creation Data Platform for Liberia. Track, verify, and report employment data across all sectors - public, private, informal economy, and donor projects." />
+    <meta name="keywords" content="Liberia, jobs, employment, labor, ministry, government, job creation, workforce, economy" />
+    <meta property="og:title" content="LiJOBS - Liberia Jobs Observatory System" />
+    <meta property="og:description" content="Real-time, trustworthy employment statistics for Liberia's economic development." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://li-jobs-liberia-jobs-observatory-system.replit.app/og-image.png" />
+    <meta property="og:image:width" content="600" />
+    <meta property="og:image:height" content="600" />
+    <meta property="og:url" content="https://li-jobs-liberia-jobs-observatory-system.replit.app" />
+    <meta property="og:site_name" content="LiJOBS" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="LiJOBS - Liberia Jobs Observatory System" />
+    <meta name="twitter:description" content="Real-time, trustworthy employment statistics for Liberia's economic development." />
+    <meta name="twitter:image" content="https://li-jobs-liberia-jobs-observatory-system.replit.app/og-image.png" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#002868" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="LiJOBS" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="LiJOBS" />
+    <meta name="msapplication-TileColor" content="#002868" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/icons/icon-192x192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  </head>
+  <body>
+    <div id="initial-loader" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,hsl(355 70% 88%),hsl(0 0% 97%),hsl(215 60% 88%));flex-direction:column;gap:20px;transition:opacity 0.4s ease;">
+      <style>@keyframes lijobs-spin{0%{transform:rotateY(0deg)}100%{transform:rotateY(360deg)}}</style>
+      <img src="/icons/icon-192x192.png" alt="LiJOBS" width="72" height="72" style="border-radius:16px;animation:lijobs-spin 1.5s ease-in-out infinite;">
+      <span style="font-family:Inter,system-ui,sans-serif;font-size:18px;font-weight:600;color:#002868;">Loading LiJOBS</span>
+      <span style="font-family:Inter,system-ui,sans-serif;font-size:13px;color:#555;">Liberia Jobs Observatory System</span>
+    </div>
+    <script>
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.getRegistrations().then(function(regs){
+          regs.forEach(function(r){r.unregister()});
+          if(regs.length>0){caches.keys().then(function(k){k.forEach(function(n){caches.delete(n)})}).then(function(){window.location.reload()})}
+        });
+        navigator.serviceWorker.addEventListener('controllerchange',function(){window.location.reload()});
+      }
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

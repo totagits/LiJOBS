@@ -1,0 +1,205 @@
+good foundation (clean layout, tabs, KPI tiles). What’s missing isn’t “more charts” — it’s a true interaction model: cross-filtering, drill-down, compare, zoom/brush, and a detail panel that makes the dashboard feel like an analytics product (not a static report).
+
+Below is a modern Economic Indicators dashboard spec designed specifically for your stack (React+TS, shadcn/ui, Recharts, React Query, Express+Drizzle+Postgres).
+
+1) The interaction model (what makes it feel sophisticated)
+A) Cross-filtering everywhere (the “dashboard brain”)
+
+One shared state drives the whole page:
+
+year
+
+dateRange (e.g., last 12 months)
+
+county (single or multi-select)
+
+compareCounty (optional)
+
+metric (avg/median/index)
+
+category (staples/oils/etc.)
+
+Behavior:
+
+Click a bar / county in ranking → all widgets update
+
+Click a line legend item → isolate category
+
+Click county on map → selects county + opens detail panel
+
+Switch tab → keeps same filters (no “reset” feeling)
+
+B) Drill-down with a right “Details Sheet”
+
+When a county is selected, open a shadcn Sheet:
+
+mini KPI tiles (county CPI, basket cost, avg wage, ratio)
+
+trend charts (CPI trend, basket trend, wage trend)
+
+“drivers” (top categories pushing cost up)
+
+data quality: sample sizes + last updated
+
+This is what makes the portal feel smart and “explorable”.
+
+C) Compare mode (County vs County / County vs National)
+
+Toggle: Compare
+
+shows 2 lines on trend charts
+
+shows 2 bars per county (or a difference bar)
+
+shows “gap” metrics: Δ wage, Δ basket, Δ ratio
+
+D) Zoom/Brush on time-series (instant upgrade)
+
+Recharts supports this well:
+
+add Brush on trends
+
+tooltips show value + MoM + YoY change
+
+hover highlights the active month across charts (shared tooltip)
+
+E) “Insight chips” that update with filters
+
+Above charts show dynamic statements like:
+
+“Bomi basket cost increased +4.2% MoM (Feb 2025).”
+
+“Montserrado affordability ratio is 0.93 (deficit).”
+
+“Energy is the fastest-rising category over 12 months.”
+
+This makes it feel like an analyst is inside the product.
+
+2) A better page layout (still your tabs, but “portal-grade”)
+Row 0 — Filter Bar (sticky)
+
+Year select
+
+Date range (last 12m / 24m / custom)
+
+County (searchable select)
+
+Compare toggle + compare county selector
+
+Download (CSV/JSON) + Share link (URL state)
+
+Row 1 — KPI Tiles (with sparklines)
+
+Your tiles are good — add:
+
+tiny sparkline trend per KPI
+
+“last updated” and data coverage
+
+Row 2 — “Select County” becomes Map + Ranking + Detail Sheet
+
+Left: Liberia county map (clickable)
+Right: ranking list (search + sort)
+On select: open detail sheet
+
+Row 3 — Trends (high interaction)
+
+Multi-line chart: category trends (with legend isolate)
+
+Brush/zoom
+
+Hover crosshair + rich tooltip
+
+Row 4 — Affordability (make this the “hero insight”)
+
+Replace the long horizontal bars with:
+
+Scatter plot (x=basket cost, y=wage), quadrant labels
+
+Optional bar showing deficit/surplus sorted
+Click any point → county selected → detail sheet opens
+
+Row 5 — Data table (not just static)
+
+Use TanStack Table:
+
+sort, search, pin columns
+
+export current view
+
+show confidence warning if sample size is low
+
+3) Backend/API upgrades for speed + interactivity (very important)
+
+Interactive dashboards die when every click triggers heavy raw-table queries.
+
+A) Create “analytics-ready” aggregates (materialized views or summary tables)
+
+You likely already compute these — formalize them:
+
+mv_cpi_county_month (county_id, month, cpi_index)
+
+mv_basket_county_month (county_id, month, basket_cost)
+
+mv_wage_county_month (county_id, month, avg_wage, median_wage, workers)
+
+mv_price_category_month (category, month, avg_price) (national + by county optional)
+
+mv_affordability_county_month (county_id, month, ratio, deficit)
+
+Refresh nightly (or after uploads).
+
+B) Provide 1 “bundle” endpoint for the whole dashboard state
+
+Instead of many calls that flicker:
+
+GET /api/public/econ/dashboard?year=2025&county=Bomi&compare=Montserrado&range=12m
+
+Returns:
+
+summary KPIs
+
+rankings
+
+trend series (CPI, basket, wage, affordability)
+
+category trends
+
+scatter plot points
+
+table rows
+
+Then optionally a detail endpoint:
+GET /api/public/econ/county/:id?year=2025&range=24m
+
+C) Add server caching for public endpoints
+
+Even on Replit/Neon, caching makes it feel “instant”.
+
+memory cache (short TTL) or Redis (best)
+
+cache keys based on query params
+
+4) Frontend implementation pattern (React Query + crossfilter state)
+A) One filter state + URL sync (shareable links)
+
+Use Wouter to keep filters in query string:
+
+?year=2025&county=Bomi&compare=Montserrado&range=12m&tab=cpi
+Users can share a link to the exact view.
+
+B) React Query: keep it smooth
+
+staleTime: 60_000 for public dashboards
+
+keepPreviousData: true so charts don’t blink
+
+prefetch when user hovers a county in ranking (feels premium)
+
+C) UI building blocks (all in your stack)
+
+shadcn Tabs, Card, Sheet, Select, Command (searchable list), Badge, Tooltip
+
+Recharts Brush, ReferenceLine, ComposedChart
+
+Framer Motion AnimatePresence for detail sheet + transitions

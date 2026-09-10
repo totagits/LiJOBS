@@ -1,0 +1,113 @@
+What looks rudimentary in the current display
+1) One-level insight (no real exploration)
+
+You have “All Counties” + a chart, but users can’t easily:
+
+compare two counties side-by-side
+
+drill from occupation group → specific occupations
+
+switch from average to median / distribution
+
+see trend over time (month/quarter/year)
+
+2) Chart doesn’t behave like an analytics tool
+
+A public portal should feel like: hover → tooltip → click → drill-down → cross-filter everything.
+
+Right now it reads like a report screenshot placed on a web page.
+
+3) No “trust signals”
+
+Public users expect:
+
+last updated timestamp
+
+data source & methodology
+
+definitions (what is “worker”? what is “avg salary”? sample size?)
+
+warnings for small samples / missing data
+
+A modern, professional way to pull from DB and serve public dashboards
+
+The key upgrade is: stop querying raw tables for every page view. Instead, build an analytics layer.
+
+Recommended architecture (simple but enterprise-grade)
+
+PostgreSQL (raw) → Analytics tables/views → API → Cache → Frontend
+
+1) Analytics layer (fast + consistent)
+
+Create summary tables / materialized views like:
+
+mv_wages_by_occupation_county_month
+
+mv_workers_by_occupation_county_month
+
+mv_top_bottom_wages_by_county
+
+Refresh them on a schedule (hourly/daily) or after data ingestion.
+
+2) Public API layer (safe)
+Expose only aggregated endpoints, e.g.:
+
+GET /api/public/wages?county=Montserrado&month=2026-01
+
+GET /api/public/wages/top?county=all&metric=avg
+
+GET /api/public/occupations/search?q=admin
+
+This prevents:
+
+exposing raw microdata
+
+slow queries
+
+inconsistent calculations across pages
+
+3) Caching
+
+Use Redis (or platform cache) + CDN caching for public endpoints.
+
+Cache common queries like “All counties + latest month”.
+
+Result: your dashboard loads instantly and scales.
+
+What a “smart” Occupational Economics page should feel like
+
+Here are upgrades that immediately make it look like a flagship portal:
+
+A) Better interactions (high impact)
+
+Compare mode: County A vs County B (or County vs National)
+
+Drill-down: Occupation Group → Occupation → Employer type (optional)
+
+Cross-filtering: click a bar → all tiles + charts update
+
+Tooltips that teach: show avg, median, min/max, sample size (n)
+
+B) Better visuals (not just prettier — more analytical)
+
+Instead of only one bar chart, use a dashboard composition:
+
+KPI tiles (keep them)
+
+Ranked bar chart (sortable)
+
+Distribution view (box plot / histogram) for wages per occupation
+
+Time series (wage trend last 12 months)
+
+County map (Liberia choropleth) to select counties naturally
+
+C) Public portal essentials
+
+“Last updated: Feb 2026”
+
+“Definitions & methodology” drawer
+
+“Download CSV / JSON”
+
+“Share this view” (generates a URL with filters)

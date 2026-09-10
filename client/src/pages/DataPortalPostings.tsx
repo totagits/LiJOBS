@@ -64,15 +64,16 @@ export default function DataPortalPostings() {
     queryKey: ["/api/data/postings/stats"],
   });
 
-  const filteredPostings = postings?.filter(p => {
+  const postingsList = Array.isArray(postings) ? postings : [];
+  const filteredPostings = postingsList.filter(p => {
     const matchesSearch = !searchQuery || 
-      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.employerName.toLowerCase().includes(searchQuery.toLowerCase());
+      p.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.employerName?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesSector = activeTab === "all" || p.sector === activeTab;
     const matchesCounty = selectedCounty === "All Counties" || p.county === selectedCounty;
     const matchesContract = selectedContract === "all" || p.contractType === selectedContract;
     return matchesSearch && matchesSector && matchesCounty && matchesContract;
-  }) || [];
+  });
 
   const getSectorColor = (sector: string) => {
     const s = SECTORS.find(s => s.id === sector);

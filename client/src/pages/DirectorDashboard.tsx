@@ -167,8 +167,11 @@ export default function DirectorDashboard() {
   }
 
   if (!user || (user.role !== "director" && user.role !== "admin")) {
-    setLocation("/login");
-    return null;
+    const isStatic = typeof window !== "undefined" && (window.location.hostname.includes("github.io") || window.location.hostname === "localhost");
+    if (!isStatic) {
+      setLocation("/login");
+      return null;
+    }
   }
 
   const sys = overview?.systemOverview;

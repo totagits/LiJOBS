@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/use-auth";
 import { PageLoadingSpinner } from "@/components/LoadingSpinner";
 import { AccessCodeGate } from "@/components/AccessCodeGate";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const Home = lazy(() => import("@/pages/Home"));
 const About = lazy(() => import("@/pages/About"));
@@ -142,7 +143,9 @@ function App() {
           <AccessCodeGate>
             <AuthProvider>
               <Toaster />
-              <Router />
+              <ErrorBoundary>
+                <Router />
+              </ErrorBoundary>
               <Suspense fallback={null}>
                 <AccessibilityWidget />
               </Suspense>

@@ -1,4 +1,4 @@
-﻿// Comprehensive Mock API data provider for GitHub Pages static deployment
+// Comprehensive Mock API data provider for GitHub Pages static deployment
 // Accurately matches shared/schema.ts types and endpoints
 
 import type { NationalStat, CountyData, MonthlyData, SectorData } from "@shared/schema";
@@ -145,6 +145,734 @@ export const MOCK_LABOUR_INDICATORS = [
   }
 ];
 
+export const MOCK_NATIONAL_STATISTICS = {
+  keyIndicators: [
+    { label: "Total Employment Spells", value: "49,770", description: "Total jobs recorded across all sectors" },
+    { label: "Active Positions", value: "35,840", description: "Currently active employment records" },
+    { label: "Verified Records", value: "87%", description: "87% verification rate" },
+    { label: "Formal Employment", value: "29,800", description: "Registered formal sector jobs" },
+    { label: "Registered Employers", value: "1,942", description: "Employers in the system" },
+    { label: "Job Vacancies", value: "412", description: "Open positions posted" },
+    { label: "Job Seekers", value: "14,820", description: "Registered job seekers" },
+    { label: "Unique Workers", value: "42,150", description: "Individual workers tracked" },
+  ],
+  sectorBreakdown: [
+    { sector: "Private", count: 27150, color: "#3b82f6" },
+    { sector: "Public", count: 15200, color: "#8b5cf6" },
+    { sector: "NGO/Projects", count: 7420, color: "#06b6d4" },
+    { sector: "Informal", count: 19970, color: "#f59e0b" },
+    { sector: "Seasonal", count: 8400, color: "#22c55e" },
+  ],
+  countyBreakdown: MOCK_COUNTIES.map(c => ({ county: c.name, count: c.jobs })),
+  contractTypes: [
+    { type: "Permanent", count: 22400 },
+    { type: "Contract", count: 14300 },
+    { type: "Temporary", count: 6800 },
+    { type: "Apprentice", count: 2100 },
+    { type: "Intern", count: 1400 },
+    { type: "Gig/Freelance", count: 2770 },
+  ],
+  genderDistribution: [
+    { gender: "male", count: 27370 },
+    { gender: "female", count: 22400 },
+  ],
+  verificationBreakdown: [
+    { status: "fully_verified", count: 31250 },
+    { status: "partial", count: 12050 },
+    { status: "self_reported", count: 6470 },
+  ],
+  formalityBreakdown: [
+    { type: "Formal", count: 29800 },
+    { type: "Informal", count: 19970 },
+  ],
+};
+
+export const MOCK_DATA_POSTINGS = [
+  {
+    id: "post-1",
+    title: "Senior Agricultural Extension Specialist",
+    employerName: "Liberia Agricultural Produce Consortium",
+    sector: "private",
+    county: "Nimba",
+    contractType: "permanent",
+    openings: 6,
+    minSalary: 750,
+    maxSalary: 1100,
+    currency: "USD",
+    status: "active",
+    createdAt: "2026-08-14T09:00:00.000Z",
+  },
+  {
+    id: "post-2",
+    title: "Health Information Systems Specialist",
+    employerName: "Ministry of Health - National Digital Unit",
+    sector: "public",
+    county: "Montserrado",
+    contractType: "contract",
+    openings: 4,
+    minSalary: 850,
+    maxSalary: 1250,
+    currency: "USD",
+    status: "active",
+    createdAt: "2026-08-18T10:30:00.000Z",
+  },
+  {
+    id: "post-3",
+    title: "Heavy Equipment Maintenance Engineer",
+    employerName: "Western Cluster Mining Operations",
+    sector: "private",
+    county: "Bomi",
+    contractType: "permanent",
+    openings: 8,
+    minSalary: 950,
+    maxSalary: 1450,
+    currency: "USD",
+    status: "active",
+    createdAt: "2026-08-20T11:00:00.000Z",
+  },
+  {
+    id: "post-4",
+    title: "Port Logistics & Cargo Supervisor",
+    employerName: "National Port Authority of Liberia",
+    sector: "public",
+    county: "Grand Bassa",
+    contractType: "permanent",
+    openings: 5,
+    minSalary: 600,
+    maxSalary: 900,
+    currency: "USD",
+    status: "active",
+    createdAt: "2026-08-24T14:15:00.000Z",
+  },
+  {
+    id: "post-5",
+    title: "Community Water & Sanitation Coordinator",
+    employerName: "Action Contre La Faim (ACF Liberia)",
+    sector: "ngo",
+    county: "Lofa",
+    contractType: "contract",
+    openings: 3,
+    minSalary: 700,
+    maxSalary: 1050,
+    currency: "USD",
+    status: "active",
+    createdAt: "2026-08-27T08:45:00.000Z",
+  },
+  {
+    id: "post-6",
+    title: "Solar PV Microgrid Technician",
+    employerName: "Rural Renewable Energy Agency (RREA)",
+    sector: "public",
+    county: "Bong",
+    contractType: "temporary",
+    openings: 10,
+    minSalary: 450,
+    maxSalary: 650,
+    currency: "USD",
+    status: "active",
+    createdAt: "2026-09-01T12:00:00.000Z",
+  },
+  {
+    id: "post-7",
+    title: "Commercial Agro-Forestry Field Supervisor",
+    employerName: "Firestone Natural Rubber Company",
+    sector: "private",
+    county: "Margibi",
+    contractType: "permanent",
+    openings: 12,
+    minSalary: 550,
+    maxSalary: 800,
+    currency: "USD",
+    status: "active",
+    createdAt: "2026-09-02T13:20:00.000Z",
+  },
+  {
+    id: "post-8",
+    title: "Fisheries Cold Chain & Marketing Officer",
+    employerName: "National Fisheries and Aquaculture Authority (NaFAA)",
+    sector: "public",
+    county: "Grand Cape Mount",
+    contractType: "contract",
+    openings: 4,
+    minSalary: 500,
+    maxSalary: 750,
+    currency: "USD",
+    status: "active",
+    createdAt: "2026-09-03T15:00:00.000Z",
+  },
+  {
+    id: "post-9",
+    title: "Timber Inventory & Sustainable Forestry Scout",
+    employerName: "Forestry Development Authority",
+    sector: "public",
+    county: "Sinoe",
+    contractType: "temporary",
+    openings: 6,
+    minSalary: 420,
+    maxSalary: 600,
+    currency: "USD",
+    status: "active",
+    createdAt: "2026-09-04T10:10:00.000Z",
+  },
+  {
+    id: "post-10",
+    title: "Youth Vocational Training Mentor",
+    employerName: "Mercy Corps Liberia Youth Forward",
+    sector: "ngo",
+    county: "Montserrado",
+    contractType: "contract",
+    openings: 6,
+    minSalary: 650,
+    maxSalary: 950,
+    currency: "USD",
+    status: "active",
+    createdAt: "2026-09-05T16:30:00.000Z",
+  },
+  {
+    id: "post-11",
+    title: "Seasonal Palm Harvest Logistics Assistant",
+    employerName: "Golden Veroleum Liberia",
+    sector: "seasonal",
+    county: "Grand Kru",
+    contractType: "temporary",
+    openings: 25,
+    minSalary: 300,
+    maxSalary: 450,
+    currency: "USD",
+    status: "active",
+    createdAt: "2026-09-06T09:00:00.000Z",
+  },
+  {
+    id: "post-12",
+    title: "Informal Market Trader Credit Facilitator",
+    employerName: "Liberia Small Business Finance Network",
+    sector: "informal",
+    county: "Montserrado",
+    contractType: "gig",
+    openings: 15,
+    minSalary: 350,
+    maxSalary: 550,
+    currency: "USD",
+    status: "active",
+    createdAt: "2026-09-07T11:45:00.000Z",
+  }
+];
+
+export const MOCK_DATA_POSTINGS_STATS = {
+  total: 412,
+  bySector: {
+    private: 215,
+    public: 85,
+    ngo: 48,
+    informal: 32,
+    seasonal: 32,
+  },
+  byCounty: {
+    "Montserrado": 160,
+    "Nimba": 65,
+    "Bong": 40,
+    "Lofa": 25,
+    "Grand Bassa": 32,
+    "Margibi": 28,
+    "Grand Cape Mount": 12,
+    "Maryland": 15,
+    "Grand Gedeh": 10,
+    "Sinoe": 8,
+    "Rivercess": 5,
+    "Grand Kru": 4,
+    "Gbarpolu": 5,
+    "River Gee": 4,
+    "Bomi": 9,
+  },
+};
+
+export const MOCK_DATA_SEEKERS = [
+  {
+    id: "skr-1",
+    personUid: "LR-SEEK-00412",
+    county: "Montserrado",
+    sex: "female",
+    isYouth: true,
+    headline: "Public Health Specialist & Epidemiological Data Analyst",
+    highestEducation: "postgraduate",
+    yearsExperience: "4 years",
+    isOpenToWork: true,
+    preferredSectors: ["public", "ngo"],
+    preferredCounties: ["Montserrado", "Margibi"],
+    willingToRelocate: true,
+    skillCount: 7,
+  },
+  {
+    id: "skr-2",
+    personUid: "LR-SEEK-00589",
+    county: "Nimba",
+    sex: "male",
+    isYouth: true,
+    headline: "Mining Heavy Duty Diesel Mechanic & Hydraulics Technician",
+    highestEducation: "vocational",
+    yearsExperience: "5 years",
+    isOpenToWork: true,
+    preferredSectors: ["private"],
+    preferredCounties: ["Nimba", "Bomi", "Grand Bassa"],
+    willingToRelocate: true,
+    skillCount: 6,
+  },
+  {
+    id: "skr-3",
+    personUid: "LR-SEEK-00721",
+    county: "Bong",
+    sex: "female",
+    isYouth: true,
+    headline: "Agricultural Economist & Cooperative Extension Trainer",
+    highestEducation: "tertiary",
+    yearsExperience: "3 years",
+    isOpenToWork: true,
+    preferredSectors: ["private", "ngo"],
+    preferredCounties: ["Bong", "Nimba", "Lofa"],
+    willingToRelocate: true,
+    skillCount: 8,
+  },
+  {
+    id: "skr-4",
+    personUid: "LR-SEEK-00845",
+    county: "Grand Bassa",
+    sex: "male",
+    isYouth: false,
+    headline: "Certified Maritime Logistics & Port Warehouse Manager",
+    highestEducation: "tertiary",
+    yearsExperience: "8 years",
+    isOpenToWork: true,
+    preferredSectors: ["private", "public"],
+    preferredCounties: ["Grand Bassa", "Montserrado"],
+    willingToRelocate: false,
+    skillCount: 9,
+  },
+  {
+    id: "skr-5",
+    personUid: "LR-SEEK-00962",
+    county: "Lofa",
+    sex: "female",
+    isYouth: true,
+    headline: "Secondary Education Mathematics & Sciences Instructor",
+    highestEducation: "tertiary",
+    yearsExperience: "2 years",
+    isOpenToWork: true,
+    preferredSectors: ["public", "ngo"],
+    preferredCounties: ["Lofa", "Bong"],
+    willingToRelocate: true,
+    skillCount: 5,
+  },
+  {
+    id: "skr-6",
+    personUid: "LR-SEEK-01034",
+    county: "Montserrado",
+    sex: "male",
+    isYouth: true,
+    headline: "Full-Stack Software Engineer & Database Administrator",
+    highestEducation: "tertiary",
+    yearsExperience: "3 years",
+    isOpenToWork: true,
+    preferredSectors: ["private", "ngo"],
+    preferredCounties: ["Montserrado"],
+    willingToRelocate: false,
+    skillCount: 11,
+  },
+  {
+    id: "skr-7",
+    personUid: "LR-SEEK-01188",
+    county: "Margibi",
+    sex: "male",
+    isYouth: true,
+    headline: "Solar PV Installer & Certified Electrical Wiring Specialist",
+    highestEducation: "vocational",
+    yearsExperience: "3 years",
+    isOpenToWork: true,
+    preferredSectors: ["private", "informal"],
+    preferredCounties: ["Margibi", "Montserrado", "Bong"],
+    willingToRelocate: true,
+    skillCount: 6,
+  },
+  {
+    id: "skr-8",
+    personUid: "LR-SEEK-01254",
+    county: "Maryland",
+    sex: "female",
+    isYouth: true,
+    headline: "Micro-finance Accounting & Cooperative Credit Officer",
+    highestEducation: "tertiary",
+    yearsExperience: "4 years",
+    isOpenToWork: true,
+    preferredSectors: ["private", "informal"],
+    preferredCounties: ["Maryland", "Grand Kru"],
+    willingToRelocate: false,
+    skillCount: 7,
+  },
+  {
+    id: "skr-9",
+    personUid: "LR-SEEK-01390",
+    county: "Grand Cape Mount",
+    sex: "male",
+    isYouth: false,
+    headline: "Commercial Fisheries Vessel Captain & Marine Navigator",
+    highestEducation: "secondary",
+    yearsExperience: "12 years",
+    isOpenToWork: true,
+    preferredSectors: ["private", "informal"],
+    preferredCounties: ["Grand Cape Mount", "Montserrado", "Grand Bassa"],
+    willingToRelocate: true,
+    skillCount: 8,
+  },
+  {
+    id: "skr-10",
+    personUid: "LR-SEEK-01445",
+    county: "Bomi",
+    sex: "female",
+    isYouth: true,
+    headline: "Environmental Impact Assessment & Reforestation Field Lead",
+    highestEducation: "tertiary",
+    yearsExperience: "2 years",
+    isOpenToWork: true,
+    preferredSectors: ["ngo", "public"],
+    preferredCounties: ["Bomi", "Gbarpolu", "Grand Cape Mount"],
+    willingToRelocate: true,
+    skillCount: 6,
+  }
+];
+
+export const MOCK_DATA_SEEKERS_STATS = {
+  total: 14820,
+  openToWork: 11200,
+  bySector: {
+    private: 6200,
+    public: 3800,
+    ngo: 2100,
+    informal: 1920,
+    seasonal: 800,
+  },
+  byCounty: {
+    "Montserrado": 5800,
+    "Nimba": 2300,
+    "Bong": 1600,
+    "Lofa": 950,
+    "Grand Bassa": 1100,
+    "Margibi": 1050,
+    "Grand Cape Mount": 420,
+    "Maryland": 510,
+    "Grand Gedeh": 340,
+    "Sinoe": 280,
+    "Rivercess": 160,
+    "Grand Kru": 110,
+    "Gbarpolu": 120,
+    "River Gee": 110,
+    "Bomi": 270,
+  },
+  byEducation: {
+    none: 1200,
+    primary: 2100,
+    secondary: 4600,
+    vocational: 3100,
+    tertiary: 3200,
+    postgraduate: 620,
+  },
+};
+
+export const MOCK_DIRECTOR_OVERVIEW = {
+  systemOverview: {
+    totalEmploymentSpells: 49770,
+    activeSpells: 35840,
+    totalVacancies: 412,
+    totalJobSeekers: 14820,
+    totalEmployers: 1942,
+    totalGrievances: 42,
+    totalIncidents: 18,
+    totalKnowledgeBase: 24,
+    totalTrainingProviders: 18,
+    totalCourses: 35,
+    totalTenders: 12,
+    totalUsers: 340,
+    avgTrustScore: 0.87,
+    formalJobs: 29800,
+    informalJobs: 19970,
+    youthEmployment: 18400,
+    femaleEmployment: 22400,
+  },
+  verificationPipeline: {
+    pending: 6470,
+    employerVerified: 12050,
+    enumeratorVerified: 8520,
+    fullyVerified: 31250,
+    flagged: 1280,
+    rejected: 410,
+  },
+  countyBreakdown: Object.fromEntries(
+    MOCK_COUNTIES.map(c => [
+      c.name,
+      {
+        employment: c.jobs,
+        vacancies: Math.round(c.jobs * 0.009),
+        jobSeekers: Math.round(c.jobs * 0.32),
+        grievances: Math.round(c.jobs * 0.001) + 1,
+        incidents: Math.round(c.jobs * 0.0004),
+        employers: c.employers,
+        verified: Math.round(c.jobs * 0.85),
+        pending: Math.round(c.jobs * 0.12),
+        flagged: Math.round(c.jobs * 0.03),
+        officers: [
+          {
+            id: `usr-${c.id}-1`,
+            name: `${c.name} Field Officer`,
+            email: `officer.${c.id}@mol.gov.lr`,
+            role: "enumerator"
+          },
+          {
+            id: `usr-${c.id}-2`,
+            name: `${c.name} Ministry Supervisor`,
+            email: `supervisor.${c.id}@mol.gov.lr`,
+            role: "ministry"
+          }
+        ]
+      }
+    ])
+  )
+};
+
+export const MOCK_DIRECTOR_OVERDUE_ALERTS = {
+  totalOverdue: 6,
+  alerts: [
+    {
+      spellId: "spl-alert-01",
+      employeeName: "Varney K. Freeman",
+      employerName: "Firestone Natural Rubber Company",
+      jobTitle: "Agricultural Supervisor",
+      county: "Margibi",
+      district: "Firestone",
+      verificationStatus: "employer_verified",
+      createdAt: "2026-08-10T10:00:00Z",
+      daysOverdue: 22,
+      responsibleOfficer: {
+        id: "usr-margibi-1",
+        name: "Jeremiah Tweh",
+        email: "j.tweh@mol.gov.lr",
+        role: "enumerator",
+        county: "Margibi"
+      }
+    },
+    {
+      spellId: "spl-alert-02",
+      employeeName: "Helena G. Flomo",
+      employerName: "Western Cluster Mining Operations",
+      jobTitle: "Logistics Clerk",
+      county: "Bomi",
+      district: "Tubmanburg",
+      verificationStatus: "pending",
+      createdAt: "2026-08-12T14:30:00Z",
+      daysOverdue: 20,
+      responsibleOfficer: {
+        id: "usr-bomi-1",
+        name: "Arthur Kollie",
+        email: "a.kollie@mol.gov.lr",
+        role: "enumerator",
+        county: "Bomi"
+      }
+    },
+    {
+      spellId: "spl-alert-03",
+      employeeName: "Moses B. Sando",
+      employerName: "Golden Veroleum Liberia",
+      jobTitle: "Plantation Assistant",
+      county: "Sinoe",
+      district: "Kpanyan",
+      verificationStatus: "employer_verified",
+      createdAt: "2026-08-15T09:00:00Z",
+      daysOverdue: 17,
+      responsibleOfficer: {
+        id: "usr-sinoe-1",
+        name: "Moses Teah",
+        email: "m.teah@mol.gov.lr",
+        role: "enumerator",
+        county: "Sinoe"
+      }
+    },
+    {
+      spellId: "spl-alert-04",
+      employeeName: "Fatu K. Kamara",
+      employerName: "Liberia Cocoa Produce Consortium",
+      jobTitle: "Quality Inspector",
+      county: "Lofa",
+      district: "Voinjama",
+      verificationStatus: "flagged",
+      createdAt: "2026-08-20T11:15:00Z",
+      daysOverdue: 12,
+      responsibleOfficer: {
+        id: "usr-lofa-1",
+        name: "Josephine Mulbah",
+        email: "j.mulbah@mol.gov.lr",
+        role: "enumerator",
+        county: "Lofa"
+      }
+    },
+    {
+      spellId: "spl-alert-05",
+      employeeName: "Gabriel P. Doe",
+      employerName: "National Port Authority",
+      jobTitle: "Berth Coordinator",
+      county: "Grand Bassa",
+      district: "Buchanan",
+      verificationStatus: "pending",
+      createdAt: "2026-08-24T16:00:00Z",
+      daysOverdue: 8,
+      responsibleOfficer: {
+        id: "usr-grand-bassa-1",
+        name: "Emmanuel Barclay",
+        email: "e.barclay@mol.gov.lr",
+        role: "enumerator",
+        county: "Grand Bassa"
+      }
+    },
+    {
+      spellId: "spl-alert-06",
+      employeeName: "Mamadee Dukuly",
+      employerName: "ArcelorMittal Liberia",
+      jobTitle: "Haulage Fleet Assistant",
+      county: "Nimba",
+      district: "Yekepa",
+      verificationStatus: "pending",
+      createdAt: "2026-08-27T08:30:00Z",
+      daysOverdue: 5,
+      responsibleOfficer: {
+        id: "usr-nimba-1",
+        name: "Bendu Johnson",
+        email: "b.johnson@mol.gov.lr",
+        role: "enumerator",
+        county: "Nimba"
+      }
+    }
+  ],
+  countySummary: {
+    Margibi: { total: 1, overdue: 1 },
+    Bomi: { total: 1, overdue: 1 },
+    Sinoe: { total: 1, overdue: 1 },
+    Lofa: { total: 1, overdue: 1 },
+    "Grand Bassa": { total: 1, overdue: 1 },
+    Nimba: { total: 1, overdue: 1 }
+  }
+};
+
+export const MOCK_DIRECTOR_OFFICER_PERFORMANCE = [
+  {
+    id: "usr-montserrado-1",
+    name: "Cyrus M. Johnson",
+    email: "c.johnson@mol.gov.lr",
+    role: "enumerator",
+    county: "Montserrado",
+    phone: "+231 77 501 2341",
+    totalRecords: 1240,
+    verified: 1115,
+    pending: 125,
+    flagged: 18,
+    overdue: 0,
+    verificationRate: 90
+  },
+  {
+    id: "usr-nimba-1",
+    name: "Bendu Johnson",
+    email: "b.johnson@mol.gov.lr",
+    role: "enumerator",
+    county: "Nimba",
+    phone: "+231 77 502 3452",
+    totalRecords: 860,
+    verified: 730,
+    pending: 130,
+    flagged: 12,
+    overdue: 1,
+    verificationRate: 85
+  },
+  {
+    id: "usr-bong-1",
+    name: "Christian D. Mulbah",
+    email: "c.mulbah@mol.gov.lr",
+    role: "enumerator",
+    county: "Bong",
+    phone: "+231 77 503 4563",
+    totalRecords: 620,
+    verified: 535,
+    pending: 85,
+    flagged: 9,
+    overdue: 0,
+    verificationRate: 86
+  },
+  {
+    id: "usr-grand-bassa-1",
+    name: "Emmanuel Barclay",
+    email: "e.barclay@mol.gov.lr",
+    role: "enumerator",
+    county: "Grand Bassa",
+    phone: "+231 77 504 5674",
+    totalRecords: 540,
+    verified: 440,
+    pending: 100,
+    flagged: 8,
+    overdue: 1,
+    verificationRate: 81
+  },
+  {
+    id: "usr-margibi-1",
+    name: "Jeremiah Tweh",
+    email: "j.tweh@mol.gov.lr",
+    role: "enumerator",
+    county: "Margibi",
+    phone: "+231 77 505 6785",
+    totalRecords: 490,
+    verified: 380,
+    pending: 110,
+    flagged: 15,
+    overdue: 1,
+    verificationRate: 78
+  },
+  {
+    id: "usr-lofa-1",
+    name: "Josephine Mulbah",
+    email: "j.mulbah@mol.gov.lr",
+    role: "enumerator",
+    county: "Lofa",
+    phone: "+231 77 506 7896",
+    totalRecords: 410,
+    verified: 320,
+    pending: 90,
+    flagged: 11,
+    overdue: 1,
+    verificationRate: 78
+  },
+  {
+    id: "usr-bomi-1",
+    name: "Arthur Kollie",
+    email: "a.kollie@mol.gov.lr",
+    role: "enumerator",
+    county: "Bomi",
+    phone: "+231 77 507 8907",
+    totalRecords: 280,
+    verified: 205,
+    pending: 75,
+    flagged: 6,
+    overdue: 1,
+    verificationRate: 73
+  },
+  {
+    id: "usr-sinoe-1",
+    name: "Moses Teah",
+    email: "m.teah@mol.gov.lr",
+    role: "enumerator",
+    county: "Sinoe",
+    phone: "+231 77 508 9018",
+    totalRecords: 240,
+    verified: 175,
+    pending: 65,
+    flagged: 7,
+    overdue: 1,
+    verificationRate: 73
+  }
+];
+
 export const MOCK_DATA: Record<string, any> = {
   "/api/access-code/status": { granted: true },
   "/api/stats": MOCK_STATS,
@@ -152,6 +880,14 @@ export const MOCK_DATA: Record<string, any> = {
   "/api/monthly-data": MOCK_MONTHLY_DATA,
   "/api/sectors": MOCK_SECTORS,
   "/api/labour-indicators": MOCK_LABOUR_INDICATORS,
+  "/api/national-statistics": MOCK_NATIONAL_STATISTICS,
+  "/api/data/postings": MOCK_DATA_POSTINGS,
+  "/api/data/postings/stats": MOCK_DATA_POSTINGS_STATS,
+  "/api/data/seekers": MOCK_DATA_SEEKERS,
+  "/api/data/seekers/stats": MOCK_DATA_SEEKERS_STATS,
+  "/api/director/overview": MOCK_DIRECTOR_OVERVIEW,
+  "/api/director/overdue-alerts": MOCK_DIRECTOR_OVERDUE_ALERTS,
+  "/api/director/officer-performance": MOCK_DIRECTOR_OFFICER_PERFORMANCE,
   "/api/auth/user": {
     id: "demo-admin-id",
     username: "director",
@@ -436,8 +1172,37 @@ export const MOCK_DATA: Record<string, any> = {
 
 // Interceptor helper to fulfill API requests
 export function getMockResponse(url: string, method = "GET"): any | null {
-  const cleanUrl = url.split("?")[0];
+  const cleanUrl = url.split("?")[0].replace(/\/$/, "");
   
+  // Specific endpoints where queryKey joins parameters (e.g. /api/data/postings/all/All Counties/all)
+  if (cleanUrl === "/api/data/postings/stats") {
+    return MOCK_DATA_POSTINGS_STATS;
+  }
+  if (cleanUrl.startsWith("/api/data/postings")) {
+    return MOCK_DATA_POSTINGS;
+  }
+
+  if (cleanUrl === "/api/data/seekers/stats") {
+    return MOCK_DATA_SEEKERS_STATS;
+  }
+  if (cleanUrl.startsWith("/api/data/seekers")) {
+    return MOCK_DATA_SEEKERS;
+  }
+
+  if (cleanUrl.startsWith("/api/national-statistics")) {
+    return MOCK_NATIONAL_STATISTICS;
+  }
+
+  if (cleanUrl.startsWith("/api/director/overview")) {
+    return MOCK_DIRECTOR_OVERVIEW;
+  }
+  if (cleanUrl.startsWith("/api/director/overdue-alerts")) {
+    return MOCK_DIRECTOR_OVERDUE_ALERTS;
+  }
+  if (cleanUrl.startsWith("/api/director/officer-performance")) {
+    return MOCK_DIRECTOR_OFFICER_PERFORMANCE;
+  }
+
   // Exact match
   if (cleanUrl in MOCK_DATA) {
     return MOCK_DATA[cleanUrl];
@@ -460,7 +1225,7 @@ export function getMockResponse(url: string, method = "GET"): any | null {
   }
 
   // Default to empty array for collection endpoints, or empty object
-  if (cleanUrl.endsWith("s") || cleanUrl.includes("list")) {
+  if (cleanUrl.endsWith("s") || cleanUrl.includes("list") || cleanUrl.includes("users") || cleanUrl.includes("spells")) {
     return [];
   }
 

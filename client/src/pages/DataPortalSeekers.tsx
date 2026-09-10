@@ -71,15 +71,16 @@ export default function DataPortalSeekers() {
     queryKey: ["/api/data/seekers/stats"],
   });
 
-  const filteredSeekers = seekers?.filter(s => {
+  const seekersList = Array.isArray(seekers) ? seekers : [];
+  const filteredSeekers = seekersList.filter(s => {
     const matchesSearch = !searchQuery || 
       s.headline?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      s.personUid.toLowerCase().includes(searchQuery.toLowerCase());
+      s.personUid?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesSector = activeTab === "all" || s.preferredSectors?.includes(activeTab);
     const matchesCounty = selectedCounty === "All Counties" || s.county === selectedCounty;
     const matchesEducation = selectedEducation === "all" || s.highestEducation === selectedEducation;
     return matchesSearch && matchesSector && matchesCounty && matchesEducation;
-  }) || [];
+  });
 
   const getEducationLabel = (level: string) => {
     const edu = EDUCATION_LEVELS.find(e => e.value === level);
@@ -151,7 +152,7 @@ export default function DataPortalSeekers() {
                   <div>
                     <p className="text-sm text-muted-foreground">Youth (15-35)</p>
                     <p className="text-2xl font-bold text-purple-600">
-                      {seekers?.filter(s => s.isYouth).length || 0}
+                      {seekersList.filter(s => s.isYouth).length}
                     </p>
                   </div>
                   <Users className="w-8 h-8 text-purple-200" />

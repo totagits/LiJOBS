@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
+import { getMockResponse } from "@/lib/mockApi";
 
 interface User {
   id: string;
@@ -44,10 +45,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const data = await response.json();
         setUser(data.user);
       } else {
-        setUser(null);
+        const mock = getMockResponse("/api/auth/me");
+        setUser(mock?.user || null);
       }
     } catch (error) {
-      setUser(null);
+      const mock = getMockResponse("/api/auth/me");
+      setUser(mock?.user || null);
     } finally {
       setIsLoading(false);
     }
@@ -66,9 +69,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(data.user);
         return { success: true };
       } else {
+        const mock = getMockResponse("/api/auth/me");
+        if (mock?.user) {
+          setUser(mock.user);
+          return { success: true };
+        }
         return { success: false, error: data.error || "Login failed" };
       }
     } catch (error) {
+      const mock = getMockResponse("/api/auth/me");
+      if (mock?.user) {
+        setUser(mock.user);
+        return { success: true };
+      }
       return { success: false, error: "Network error. Please try again." };
     }
   };

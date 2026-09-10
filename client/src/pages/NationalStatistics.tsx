@@ -69,7 +69,7 @@ export default function NationalStatistics() {
     queryKey: ["/api/national-statistics"],
   });
 
-  const hasData = data && data.keyIndicators.some(i => i.value !== "0");
+  const hasData = Boolean(data?.keyIndicators && Array.isArray(data.keyIndicators) && data.keyIndicators.some(i => i.value !== "0"));
 
   const handleRefresh = () => {
     queryClient.invalidateQueries({ queryKey: ["/api/national-statistics"] });

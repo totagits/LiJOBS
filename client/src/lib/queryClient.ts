@@ -1,4 +1,5 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
+import { getMockResponse } from "./mockApi";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
@@ -12,15 +13,36 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
-  const res = await fetch(url, {
-    method,
-    headers: data ? { "Content-Type": "application/json" } : {},
-    body: data ? JSON.stringify(data) : undefined,
-    credentials: "include",
-  });
+  try {
+    const res = await fetch(url, {
+      method,
+      headers: data ? { "Content-Type": "application/json" } : {},
+      body: data ? JSON.stringify(data) : undefined,
+      credentials: "include",
+    });
 
-  await throwIfResNotOk(res);
-  return res;
+    if (!res.ok && (res.status === 404 || res.status === 500)) {
+      const mock = getMockResponse(url, method);
+      if (mock !== null) {
+        return new Response(JSON.stringify(mock), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }
+
+    await throwIfResNotOk(res);
+    return res;
+  } catch (err) {
+    const mock = getMockResponse(url, method);
+    if (mock !== null) {
+      return new Response(JSON.stringify(mock), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    throw err;
+  }
 }
 
 type UnauthorizedBehavior = "returnNull" | "throw";
@@ -29,16 +51,29 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const res = await fetch(queryKey.join("/") as string, {
-      credentials: "include",
-    });
+    const url = queryKey.join("/") as string;
 
-    if (unauthorizedBehavior === "returnNull" && res.status === 401) {
-      return null;
+    try {
+      const res = await fetch(url, {
+        credentials: "include",
+      });
+
+      if (unauthorizedBehavior === "returnNull" && res.status === 401) {
+        return null;
+      }
+
+      if (!res.ok && (res.status === 404 || res.status === 500)) {
+        const mock = getMockResponse(url);
+        if (mock !== null) return mock as T;
+      }
+
+      await throwIfResNotOk(res);
+      return await res.json();
+    } catch (err) {
+      const mock = getMockResponse(url);
+      if (mock !== null) return mock as T;
+      throw err;
     }
-
-    await throwIfResNotOk(res);
-    return await res.json();
   };
 
 export const queryClient = new QueryClient({
@@ -55,3 +90,4 @@ export const queryClient = new QueryClient({
     },
   },
 });
+

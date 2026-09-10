@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
-import { Switch, Route } from "wouter";
+import { Switch, Route, Router as WouterRouter } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -62,63 +62,66 @@ const AccessibilityWidget = lazy(() => import("@/components/AccessibilityWidget"
 const AIAssistant = lazy(() => import("@/components/AIAssistant").then(m => ({ default: m.AIAssistant })));
 
 function Router() {
+  const base = (import.meta.env.BASE_URL || "").replace(/\/$/, "");
   return (
-    <Suspense fallback={<PageLoadingSpinner />}>
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/jobs" component={Jobs} />
-        <Route path="/data" component={DataPortal} />
-        <Route path="/data/national" component={NationalStatistics} />
-        <Route path="/data/counties" component={CountyData} />
-        <Route path="/data/sectors" component={SectorAnalysis} />
-        <Route path="/data/postings" component={DataPortalPostings} />
-        <Route path="/data/seekers" component={DataPortalSeekers} />
-        <Route path="/job-matching" component={JobMatching} />
-        <Route path="/reports" component={Reports} />
-        <Route path="/resources" component={Resources} />
-        <Route path="/contact" component={Contact} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/report-jobs" component={ReportJobs} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/profile" component={Profile} />
-        <Route path="/training" component={TrainingCenter} />
-        <Route path="/admin/videos" component={VideoManagement} />
-        <Route path="/admin/baseline-data" component={AdminBaselineData} />
-        <Route path="/admin/users" component={AdminUsers} />
-        <Route path="/admin/verifications" component={AdminVerifications} />
-        <Route path="/observatory" component={Observatory} />
-        <Route path="/employer/applications" component={EmployerApplications} />
-        <Route path="/employer/vacancies" component={EmployerVacancies} />
-        <Route path="/employer/vacancies/new" component={EmployerVacancyForm} />
-        <Route path="/employer/vacancies/:id/edit" component={EmployerVacancyForm} />
-        <Route path="/job-seekers" component={JobSeekers} />
-        <Route path="/training-providers" component={TrainingProviders} />
-        <Route path="/courses" component={CourseCatalog} />
-        <Route path="/courses/:id" component={CourseDetail} />
-        <Route path="/pec-management" component={PECManagement} />
-        <Route path="/bulk-upload" component={BulkUpload} />
-        <Route path="/labour-indicators" component={LabourIndicators} />
-        <Route path="/grievances" component={GrievanceSystem} />
-        <Route path="/knowledge-base" component={KnowledgeBase} />
-        <Route path="/workplace-safety" component={WorkplaceSafety} />
-        <Route path="/employer/tenders" component={EmployerTenders} />
-        <Route path="/employer/tenders/new" component={EmployerTenderForm} />
-        <Route path="/employer/tenders/:id/edit" component={EmployerTenderForm} />
-        <Route path="/tenders" component={Tenders} />
-        <Route path="/tenders/:id" component={TenderDetail} />
-        <Route path="/verification" component={VerificationDashboard} />
-        <Route path="/director" component={DirectorDashboard} />
-        <Route path="/economic-indicators" component={EconomicIndicators} />
-        <Route path="/price-entry" component={PriceEntry} />
-        <Route path="/occupational-economics" component={OccupationalEconomics} />
-        <Route path="/statistical-rigor" component={StatisticalRigor} />
-        <Route path="/data-hub" component={DataHub} />
-        <Route path="/methodology" component={Methodology} />
-        <Route component={NotFound} />
-      </Switch>
-    </Suspense>
+    <WouterRouter base={base}>
+      <Suspense fallback={<PageLoadingSpinner />}>
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/about" component={About} />
+          <Route path="/jobs" component={Jobs} />
+          <Route path="/data" component={DataPortal} />
+          <Route path="/data/national" component={NationalStatistics} />
+          <Route path="/data/counties" component={CountyData} />
+          <Route path="/data/sectors" component={SectorAnalysis} />
+          <Route path="/data/postings" component={DataPortalPostings} />
+          <Route path="/data/seekers" component={DataPortalSeekers} />
+          <Route path="/job-matching" component={JobMatching} />
+          <Route path="/reports" component={Reports} />
+          <Route path="/resources" component={Resources} />
+          <Route path="/contact" component={Contact} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/report-jobs" component={ReportJobs} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/training" component={TrainingCenter} />
+          <Route path="/admin/videos" component={VideoManagement} />
+          <Route path="/admin/baseline-data" component={AdminBaselineData} />
+          <Route path="/admin/users" component={AdminUsers} />
+          <Route path="/admin/verifications" component={AdminVerifications} />
+          <Route path="/observatory" component={Observatory} />
+          <Route path="/employer/applications" component={EmployerApplications} />
+          <Route path="/employer/vacancies" component={EmployerVacancies} />
+          <Route path="/employer/vacancies/new" component={EmployerVacancyForm} />
+          <Route path="/employer/vacancies/:id/edit" component={EmployerVacancyForm} />
+          <Route path="/job-seekers" component={JobSeekers} />
+          <Route path="/training-providers" component={TrainingProviders} />
+          <Route path="/courses" component={CourseCatalog} />
+          <Route path="/courses/:id" component={CourseDetail} />
+          <Route path="/pec-management" component={PECManagement} />
+          <Route path="/bulk-upload" component={BulkUpload} />
+          <Route path="/labour-indicators" component={LabourIndicators} />
+          <Route path="/grievances" component={GrievanceSystem} />
+          <Route path="/knowledge-base" component={KnowledgeBase} />
+          <Route path="/workplace-safety" component={WorkplaceSafety} />
+          <Route path="/employer/tenders" component={EmployerTenders} />
+          <Route path="/employer/tenders/new" component={EmployerTenderForm} />
+          <Route path="/employer/tenders/:id/edit" component={EmployerTenderForm} />
+          <Route path="/tenders" component={Tenders} />
+          <Route path="/tenders/:id" component={TenderDetail} />
+          <Route path="/verification" component={VerificationDashboard} />
+          <Route path="/director" component={DirectorDashboard} />
+          <Route path="/economic-indicators" component={EconomicIndicators} />
+          <Route path="/price-entry" component={PriceEntry} />
+          <Route path="/occupational-economics" component={OccupationalEconomics} />
+          <Route path="/statistical-rigor" component={StatisticalRigor} />
+          <Route path="/data-hub" component={DataHub} />
+          <Route path="/methodology" component={Methodology} />
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
+    </WouterRouter>
   );
 }
 

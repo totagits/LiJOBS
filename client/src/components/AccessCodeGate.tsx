@@ -38,7 +38,7 @@ export function AccessCodeGate({ children }: { children: React.ReactNode }) {
     return <PageLoadingSpinner />;
   }
 
-  if (data?.granted) {
+  if (data?.granted !== false) {
     return <>{children}</>;
   }
 
